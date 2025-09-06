@@ -1,0 +1,16 @@
+:host { display: block; }
+.page { padding: 16px; display: flex; justify-content: center; }
+.container { width: 100%; max-width: 960px; display: grid; gap: 16px; }
+.row { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 900px) {
+  .row { grid-template-columns: 1fr 1fr; }
+}
+.full { grid-column: 1 / -1; }
+.avatar {
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background: #e5e7eb;
+}
+.grid-2 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+mat-form-field { width: 100%; }
+.actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+

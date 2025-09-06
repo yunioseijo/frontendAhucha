@@ -4,53 +4,42 @@ import { FormsModule } from '@angular/forms';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '@shared/api/users.service';
 import { AuthService } from '@auth/services/auth.service';
+import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions } from '@angular/material/card';
+import { MatFormField, MatLabel, MatError, MatHint } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  template: `
-    <h2>Mi cuenta</h2>
-    <div *ngIf="auth.user() as u; else loadingTpl">
-      <h3>Perfil</h3>
-      <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-        <label>Nombre completo <input formControlName="fullName" /></label>
-        <label>Usuario <input formControlName="username" /></label>
-        <label>Avatar URL <input formControlName="avatarUrl" /></label>
-        <label>Teléfono <input formControlName="phone" /></label>
-        <label>Bio <input formControlName="bio" /></label>
-        <label>País <input formControlName="countryCode" /></label>
-        <label>Locale <input formControlName="locale" /></label>
-        <label>Zona horaria <input formControlName="timezone" /></label>
-        <button type="submit">Guardar</button>
-      </form>
-
-      <h3>Cambiar contraseña</h3>
-      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-        <label>Actual <input type="password" formControlName="currentPassword" /></label>
-        <label>Nueva <input type="password" formControlName="newPassword" /></label>
-        <button type="submit">Actualizar</button>
-      </form>
-
-      <h3>2FA</h3>
-      <button (click)="setup2FA()">Configurar</button>
-      <div>
-        <input placeholder="Código" [(ngModel)]="twoFactorCode" />
-        <button (click)="enable2FA()">Activar</button>
-        <button (click)="disable2FA()">Desactivar</button>
-      </div>
-
-      <h3>Sesión</h3>
-      <button (click)="logoutCurrent()">Cerrar sesión</button>
-      <button (click)="logoutAll()">Cerrar todas</button>
-    </div>
-    <ng-template #loadingTpl> Cargando... </ng-template>
-  `
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    MatCardActions,
+    MatFormField,
+    MatLabel,
+    MatError,
+    MatHint,
+    MatInput,
+    MatButton,
+    MatIcon,
+    MatDivider,
+  ],
+  templateUrl: './account.page.html',
+  styleUrl: './account.page.css'
 })
 export class AccountPage implements OnInit {
   private fb = inject(FormBuilder);
-  protected users = inject(UsersService);
-  protected auth = inject(AuthService);
+  users = inject(UsersService);
+  auth = inject(AuthService);
 
   twoFactorCode = '';
 
