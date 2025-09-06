@@ -21,7 +21,7 @@
       "@shared/*": ["src/app/shared/*"],
       "@features/*": ["src/app/features/*"],
       "@pages/*": ["src/app/pages/*"],
-      "@env": ["src/environments/environments.ts"]
+      "@env": ["src/environments/environment"]
     }
   },
   "angularCompilerOptions": {
