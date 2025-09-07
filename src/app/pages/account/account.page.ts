@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '@shared/api/users.service';
 import { AuthService } from '@auth/services/auth.service';
-import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent, MatCardActions } from '@angular/material/card';
+import { Router } from '@angular/router';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent } from '@angular/material/card';
 import { MatFormField, MatLabel, MatError, MatHint } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatDivider } from '@angular/material/divider';
+import { TwoFactorSetupComponent } from '@features/auth/two-factor-setup/two-factor-setup.component';
 
 @Component({
   selector: 'app-account',
@@ -23,15 +24,13 @@ import { MatDivider } from '@angular/material/divider';
     MatCardTitle,
     MatCardSubtitle,
     MatCardContent,
-    MatCardActions,
     MatFormField,
     MatLabel,
     MatError,
     MatHint,
     MatInput,
     MatButton,
-    MatIcon,
-    MatDivider,
+    TwoFactorSetupComponent,
   ],
   templateUrl: './account.page.html',
   styleUrl: './account.page.css'
@@ -40,8 +39,16 @@ export class AccountPage implements OnInit {
   private fb = inject(FormBuilder);
   users = inject(UsersService);
   auth = inject(AuthService);
+  private sanitizer = inject(DomSanitizer);
+  private router = inject(Router);
 
-  twoFactorCode = '';
+  readonly defaultAvatar: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(
+    'data:image/svg+xml;utf8,' +
+      encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="100%" height="100%" fill="#e5e7eb"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="18" fill="#9ca3af">A</text></svg>`
+      )
+  );
+
 
   profileForm = this.fb.nonNullable.group({
     fullName: ['', [Validators.required]],
@@ -88,9 +95,16 @@ export class AccountPage implements OnInit {
 
   saveProfile() { this.users.updateMe(this.profileForm.getRawValue()).subscribe((u) => this.auth.loadMe().subscribe()); }
   changePassword() { this.users.changeMyPassword(this.passwordForm.getRawValue()).subscribe(); }
-  setup2FA() { this.auth.setup2FA().subscribe(); }
-  enable2FA() { this.auth.enable2FA({ code: this.twoFactorCode }).subscribe(); }
-  disable2FA() { this.auth.disable2FA({ code: this.twoFactorCode }).subscribe(); }
-  logoutCurrent() { this.auth.logoutCurrent().subscribe(); }
-  logoutAll() { this.auth.logoutAll().subscribe(); }
+  logoutCurrent() {
+    this.auth.logoutCurrent().subscribe({
+      next: () => this.router.navigate(['/auth/login']),
+      error: () => this.router.navigate(['/auth/login'])
+    });
+  }
+  logoutAll() {
+    this.auth.logoutAll().subscribe({
+      next: () => this.router.navigate(['/auth/login']),
+      error: () => this.router.navigate(['/auth/login'])
+    });
+  }
 }

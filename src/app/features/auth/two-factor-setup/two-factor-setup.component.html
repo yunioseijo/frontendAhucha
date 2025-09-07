@@ -1,0 +1,40 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Seguridad 2FA</mat-card-title>
+    <mat-card-subtitle>Protege tu cuenta con autenticación en dos pasos</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="step">
+      <button mat-stroked-button color="primary" (click)="setup()" [disabled]="loadingSetup">
+        <mat-icon>qr_code</mat-icon>
+        <span>{{ loadingSetup ? 'Generando…' : 'Generar QR' }}</span>
+      </button>
+    </div>
+
+    <div class="qr" *ngIf="otpauth">
+      <img [src]="qrUrl" alt="QR 2FA" width="200" height="200" />
+    </div>
+
+    <div class="secret" *ngIf="secret">
+      <div class="secret-label">Código secreto (Base32)</div>
+      <code>{{ secret }}</code>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="enable()" *ngIf="otpauth" class="enable-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Código de tu App</mat-label>
+        <input matInput inputmode="numeric" maxlength="8" formControlName="code" placeholder="123456" />
+        <mat-error *ngIf="form.controls.code.hasError('required')">Requerido</mat-error>
+        <mat-error *ngIf="form.controls.code.hasError('minlength')">Mínimo 6 dígitos</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loadingEnable">
+        <mat-icon>verified_user</mat-icon>
+        <span>{{ loadingEnable ? 'Activando…' : 'Activar 2FA' }}</span>
+      </button>
+    </form>
+
+    <div class="ok" *ngIf="ok">2FA activado correctamente.</div>
+    <div class="error" *ngIf="error">{{ error }}</div>
+  </mat-card-content>
+</mat-card>
+
