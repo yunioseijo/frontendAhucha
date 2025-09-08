@@ -7,10 +7,11 @@ import { MatButton } from '@angular/material/button';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
 import { ThemeService } from '@core/layout/theme.service';
+import { UserMenuComponent } from '@core/layout/user-menu.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf, MatToolbar, MatButton, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf, MatToolbar, MatButton, MatMenu, MatMenuItem, MatMenuTrigger, MatIcon, UserMenuComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -24,4 +25,5 @@ export class App implements OnInit {
       this.auth.loadMe().subscribe({ error: () => this.auth.clearTokens() });
     }
   }
+
 }

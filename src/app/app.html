@@ -2,13 +2,12 @@
   <span>Ahucha</span>
   <span class="spacer"></span>
   <ng-container *ngIf="!auth.isAuthenticated(); else authed">
-    <a mat-button routerLink="/">Inicio</a>
+    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
     <a mat-button routerLink="/auth/login" routerLinkActive="active">Entrar</a>
     <a mat-button routerLink="/auth/register" routerLinkActive="active">Registro</a>
   </ng-container>
   <ng-template #authed>
-    <a mat-button routerLink="/">Inicio</a>
-    <a mat-button routerLink="/account" routerLinkActive="active">Mi cuenta</a>
+    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
     <a mat-button routerLink="/admin/users" routerLinkActive="active">Admin</a>
   </ng-template>
 
@@ -20,6 +19,9 @@
     <button mat-menu-item (click)="theme.set('dark')"><mat-icon>dark_mode</mat-icon><span>Tema oscuro</span></button>
     <button mat-menu-item (click)="theme.set('system')"><mat-icon>settings</mat-icon><span>Seguir sistema</span></button>
   </mat-menu>
+
+  <!-- Menú de usuario (componente) -->
+  <app-user-menu></app-user-menu>
   </mat-toolbar>
 
 <main class="container">

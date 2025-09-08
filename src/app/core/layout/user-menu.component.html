@@ -1,0 +1,24 @@
+<ng-container *ngIf="auth.isAuthenticated() && auth.user() as u">
+  <button mat-icon-button class="avatar-btn" [matMenuTriggerFor]="userMenu" aria-label="Cuenta" title="Cuenta">
+    <img *ngIf="u.avatarUrl; else userIcon" [src]="u.avatarUrl" alt="avatar" />
+    <ng-template #userIcon>
+      <mat-icon>account_circle</mat-icon>
+    </ng-template>
+  </button>
+  <mat-menu #userMenu="matMenu" xPosition="before">
+    <button mat-menu-item [routerLink]="'/account'">
+      <mat-icon>person</mat-icon>
+      <span>Perfil</span>
+    </button>
+    <button mat-menu-item [routerLink]="'/account'">
+      <mat-icon>settings</mat-icon>
+      <span>Ajustes</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Salir</span>
+    </button>
+  </mat-menu>
+</ng-container>
+

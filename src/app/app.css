@@ -5,3 +5,17 @@
 .container {
   padding: 16px;
 }
+
+/* Marca visual para el link activo en la barra */
+mat-toolbar a.active {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Avatar button in navbar */
+.avatar-btn img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
