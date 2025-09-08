@@ -1,0 +1,15 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Ajustes</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <h3 style="margin-top:0">Tema</h3>
+    <p style="margin-top:0;color:#6b7280">Elige cómo se ve la aplicación.</p>
+    <mat-button-toggle-group [value]="mode()" (valueChange)="setMode($event)" appearance="standard">
+      <mat-button-toggle value="light">Claro</mat-button-toggle>
+      <mat-button-toggle value="dark">Oscuro</mat-button-toggle>
+      <mat-button-toggle value="system">Sistema</mat-button-toggle>
+    </mat-button-toggle-group>
+  </mat-card-content>
+</mat-card>
+
