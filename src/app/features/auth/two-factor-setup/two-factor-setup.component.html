@@ -35,6 +35,22 @@
 
     <div class="ok" *ngIf="ok">2FA activado correctamente.</div>
     <div class="error" *ngIf="error">{{ error }}</div>
+
+    <div class="disable-section">
+      <h3>Desactivar 2FA</h3>
+      <form [formGroup]="disableForm" (ngSubmit)="disable()" class="enable-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Código actual</mat-label>
+          <input matInput inputmode="numeric" maxlength="8" formControlName="code" placeholder="123456" />
+          <mat-error *ngIf="disableForm.controls.code.hasError('required')">Requerido</mat-error>
+          <mat-error *ngIf="disableForm.controls.code.hasError('minlength')">Mínimo 6 dígitos</mat-error>
+        </mat-form-field>
+        <button mat-stroked-button color="warn" type="submit" [disabled]="disableForm.invalid || loadingDisable">
+          <mat-icon>block</mat-icon>
+          <span>{{ loadingDisable ? 'Desactivando…' : 'Desactivar 2FA' }}</span>
+        </button>
+      </form>
+      <div class="ok" *ngIf="okDisable">2FA desactivado correctamente.</div>
+    </div>
   </mat-card-content>
 </mat-card>
-

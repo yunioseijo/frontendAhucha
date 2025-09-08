@@ -37,13 +37,19 @@ export class TwoFactorSetupComponent {
 
   loadingSetup = false;
   loadingEnable = false;
+  loadingDisable = false;
   error = '';
   ok = false;
+  okDisable = false;
 
   secret = '';
   otpauth = '';
 
   form = this.fb.nonNullable.group({
+    code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]]
+  });
+
+  disableForm = this.fb.nonNullable.group({
     code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]]
   });
 
@@ -91,5 +97,26 @@ export class TwoFactorSetupComponent {
         this.error = msg || 'Código inválido o expirado';
       }
     });
+  }
+
+  disable() {
+    if (this.disableForm.invalid) return;
+    this.error = '';
+    this.okDisable = false;
+    this.loadingDisable = true;
+    const raw = this.disableForm.controls.code.value ?? '';
+    const code = String(raw).replace(/\D+/g, '').trim();
+    this.auth
+      .disable2FA({ code })
+      .pipe(finalize(() => { this.loadingDisable = false; this.cdr.detectChanges(); }))
+      .subscribe({
+        next: () => {
+          this.okDisable = true;
+        },
+        error: (e: any) => {
+          const msg = (e?.error && (e.error.message || e.error.error)) || e?.message;
+          this.error = msg || 'No se pudo desactivar 2FA';
+        }
+      });
   }
 }

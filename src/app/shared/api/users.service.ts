@@ -23,8 +23,18 @@ export class UsersService {
   updateMe(payload: UpdateProfileDto): Observable<UserResponseDto> { return this.http.patch<UserResponseDto>(`${API.baseUrl}/users/me`, payload); }
   changeMyPassword(payload: ChangePasswordDto): Observable<unknown> { return this.http.patch(`${API.baseUrl}/users/me/password`, payload); }
 
-  list(limit = 10, offset = 0): Observable<UserListResponseDto> {
-    const params = new HttpParams().set('limit', limit).set('offset', offset);
+  list(
+    limit = 10,
+    offset = 0,
+    filters?: { q?: string; role?: 'admin' | 'super-user' | 'user'; isActive?: boolean; emailVerified?: boolean }
+  ): Observable<UserListResponseDto> {
+    let params = new HttpParams().set('limit', limit).set('offset', offset);
+    if (filters) {
+      if (filters.q && filters.q.trim().length > 0) params = params.set('q', filters.q.trim());
+      if (filters.role) params = params.set('role', filters.role);
+      if (typeof filters.isActive === 'boolean') params = params.set('isActive', String(filters.isActive));
+      if (typeof filters.emailVerified === 'boolean') params = params.set('emailVerified', String(filters.emailVerified));
+    }
     return this.http.get<UserListResponseDto>(`${API.baseUrl}/users`, { params });
   }
 

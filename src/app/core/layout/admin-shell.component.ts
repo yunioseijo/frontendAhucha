@@ -94,6 +94,7 @@ export class AdminShellComponent implements OnInit, OnDestroy {
     const crumbs: { label: string; url: string }[] = [];
     let current = this.route.root;
     let url = '';
+    let skippedAdmin = false;
 
     while (current.firstChild) {
       current = current.firstChild;
@@ -101,10 +102,26 @@ export class AdminShellComponent implements OnInit, OnDestroy {
       if (!routeConfig) continue;
       const segment = routeConfig.path ?? '';
       if (!segment) continue;
-      // accumulate
-      url += '/' + segment.replace(':id', (current.snapshot.params['id'] ?? ':id'));
+
+      // Skip the top-level 'admin' segment to avoid duplicating the static root link
+      if (!skippedAdmin && segment === 'admin') {
+        skippedAdmin = true;
+        continue;
+      }
+
+      // Build URL (without the top-level 'admin')
+      const segForUrl = segment.replace(':id', (current.snapshot.params['id'] ?? ':id'));
+      url += '/' + segForUrl;
+
+      // If we're on a detail route like 'users/:id', inject parent list crumb first
+      if (/^users\/:/.test(segment)) {
+        crumbs.push({ label: 'Usuarios', url: '/admin/users' });
+      }
+
       const label = (routeConfig.data && routeConfig.data['breadcrumb']) || this.titleCase(segment.replace(':id', 'Detalle'));
-      crumbs.push({ label, url: '/admin' + url.replace(/^\/+admin\/?/, '/') });
+      // Ensure all crumb URLs are rooted under /admin
+      const fullUrl = '/admin' + url.replace(/^\/+admin\/?/, '/');
+      crumbs.push({ label, url: fullUrl });
     }
     this.breadcrumbs.set(crumbs);
   }

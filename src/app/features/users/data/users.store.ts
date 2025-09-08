@@ -16,9 +16,13 @@ export class UsersStore {
   readonly total = computed(() => this.totalSig());
   readonly list: Signal<User[]> = computed(() => this.listSig());
 
-  load(limit = 10, offset = 0) {
+  load(
+    limit = 10,
+    offset = 0,
+    filters?: { q?: string; role?: 'admin' | 'super-user' | 'user'; isActive?: boolean; emailVerified?: boolean }
+  ) {
     this.loadingSig.set(true);
-    this.api.list(limit, offset).subscribe({
+    this.api.list(limit, offset, filters).subscribe({
       next: (res) => {
         this.totalSig.set(res.total);
         this.listSig.set(res.data.map(mapUserDtoToDomain));
@@ -28,10 +32,15 @@ export class UsersStore {
     });
   }
 
-  create(payload: CreateUserDto, limit = 10, offset = 0) {
+  create(
+    payload: CreateUserDto,
+    limit = 10,
+    offset = 0,
+    filters?: { q?: string; role?: 'admin' | 'super-user' | 'user'; isActive?: boolean; emailVerified?: boolean }
+  ) {
     this.loadingSig.set(true);
     this.api.create(payload).subscribe({
-      next: () => this.load(limit, offset),
+      next: () => this.load(limit, offset, filters),
       error: () => this.loadingSig.set(false)
     });
   }
