@@ -1,15 +1,14 @@
 <mat-toolbar color="primary">
   <span>Ahucha</span>
   <span class="spacer"></span>
-  <ng-container *ngIf="!auth.isAuthenticated(); else authed">
+  @if (!auth.isAuthenticated()) {
     <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
     <a mat-button routerLink="/auth/login" routerLinkActive="active">Entrar</a>
     <a mat-button routerLink="/auth/register" routerLinkActive="active">Registro</a>
-  </ng-container>
-  <ng-template #authed>
+  } @else {
     <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
     <a mat-button routerLink="/admin/users" routerLinkActive="active">Admin</a>
-  </ng-template>
+  }
 
   <!-- Menú de usuario (componente) -->
   <app-user-menu></app-user-menu>

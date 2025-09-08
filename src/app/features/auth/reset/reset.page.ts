@@ -15,7 +15,9 @@ import { AuthService } from '@auth/services/auth.service';
       <label>Nueva contraseña <input type="password" formControlName="newPassword" /></label>
       <button type="submit" [disabled]="form.invalid || loading">Guardar</button>
     </form>
-    <p *ngIf="ok" style="color:green">Contraseña actualizada. Ya puedes iniciar sesión.</p>
+    @if (ok) {
+      <p style="color:green">Contraseña actualizada. Ya puedes iniciar sesión.</p>
+    }
   `
 })
 export class ResetPage {

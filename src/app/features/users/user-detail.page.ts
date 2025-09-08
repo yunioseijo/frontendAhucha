@@ -37,7 +37,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
     .actions { display:flex; gap: 8px; }
   `],
   template: `
-    <ng-container *ngIf="form; else loadingTpl">
+    @if (form) {
       <mat-card appearance="outlined" style="margin-bottom:12px;">
         <mat-card-header>
           <mat-card-title>Usuario</mat-card-title>
@@ -115,9 +115,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
         </mat-card-header>
         <mat-card-content>
           <ul>
-            <li *ngFor="let a of audits">{{a.createdAt}} - {{a.action}}</li>
+            @for (a of audits; track $index) {
+              <li>{{a.createdAt}} - {{a.action}}</li>
+            }
           </ul>
-        </mat-card-content>
+      </mat-card-content>
       </mat-card>
 
       <mat-card appearance="outlined" style="margin-top:12px;">
@@ -131,10 +133,9 @@ import { MatCheckbox } from '@angular/material/checkbox';
           </div>
         </mat-card-content>
       </mat-card>
-    </ng-container>
-    <ng-template #loadingTpl>
+    } @else {
       <mat-card appearance="outlined"><mat-card-content>Cargando…</mat-card-content></mat-card>
-    </ng-template>
+    }
   `
 })
 export class UserDetailPage implements OnInit {

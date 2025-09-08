@@ -1,0 +1,33 @@
+<div class="admin-shell">
+  <aside class="sidebar">
+    <div class="brand">Ahucha Admin</div>
+    <nav>
+      <a routerLink="/admin/users" routerLinkActive="active">Usuarios</a>
+    </nav>
+  </aside>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <nav class="breadcrumbs">
+          <a routerLink="/admin">Admin</a>
+          @for (bc of breadcrumbs(); track bc.url; let last = $last) {
+            <span class="sep">/</span>
+            @if (!last) {
+              <a [routerLink]="bc.url">{{ bc.label }}</a>
+            } @else {
+              <span>{{ bc.label }}</span>
+            }
+          }
+        </nav>
+      </div>
+      <div class="spacer"></div>
+      @if (auth.user(); as u) {
+        <div class="user">{{ u.fullName }} ({{ u.email }})</div>
+      }
+      <button class="logout" (click)="logout()">Cerrar sesión</button>
+    </header>
+    <section class="content">
+      <router-outlet />
+    </section>
+  </div>
+</div>

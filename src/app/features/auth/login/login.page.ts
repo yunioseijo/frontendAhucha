@@ -55,8 +55,12 @@ import { MatIcon } from '@angular/material/icon';
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
               <input matInput type="email" formControlName="email" autocomplete="username" />
-              <mat-error *ngIf="form.controls.email.hasError('required')">El email es requerido</mat-error>
-              <mat-error *ngIf="form.controls.email.hasError('email')">Formato de email inválido</mat-error>
+              @if (form.controls.email.hasError('required')) {
+                <mat-error>El email es requerido</mat-error>
+              }
+              @if (form.controls.email.hasError('email')) {
+                <mat-error>Formato de email inválido</mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -65,7 +69,9 @@ import { MatIcon } from '@angular/material/icon';
               <button mat-icon-button matSuffix type="button" (click)="hide = !hide" [attr.aria-label]="hide ? 'Mostrar contraseña' : 'Ocultar contraseña'">
                 <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
               </button>
-              <mat-error *ngIf="form.controls.password.hasError('required')">La contraseña es requerida</mat-error>
+              @if (form.controls.password.hasError('required')) {
+                <mat-error>La contraseña es requerida</mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -81,7 +87,9 @@ import { MatIcon } from '@angular/material/icon';
               <a mat-button routerLink="/auth/forgot-password">¿Olvidaste tu contraseña?</a>
             </div>
 
-            <div class="error" *ngIf="error">{{ error }}</div>
+            @if (error) {
+              <div class="error">{{ error }}</div>
+            }
           </form>
         </mat-card-content>
         <mat-card-actions align="end">

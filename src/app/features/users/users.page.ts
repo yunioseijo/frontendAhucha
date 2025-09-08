@@ -8,6 +8,10 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSelect, MatOption } from '@angular/material/select';
 import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UsersService } from '@shared/api/users.service';
+import { ConfirmDialogComponent } from '@shared/ui/confirm-dialog.component';
 
 @Component({
   selector: 'app-users',
@@ -27,14 +31,25 @@ import { MatButton } from '@angular/material/button';
     MatSelect,
     MatOption,
     MatButton,
+    MatIcon,
+    MatDialogModule,
   ],
   styles: [`
     :host { display: block; }
     .filters { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
     @media (min-width: 900px) { .filters { grid-template-columns: 1fr 200px 200px auto; align-items: end; } }
     table { width: 100%; border-collapse: collapse; }
-    thead th { text-align: left; padding: 8px; border-bottom: 1px solid #e5e7eb; }
-    tbody td { padding: 8px; border-bottom: 1px solid #f3f4f6; }
+    thead th { text-align: left; padding: 10px 12px; font-weight: 600; color:#6b7280; border-bottom: 1px solid #e5e7eb; }
+    tbody td { padding: 12px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+    tbody tr:hover { background: #fafafa; }
+    .status-badge { display:inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight:600; }
+    .status-active { background:#dcfce7; color:#166534; }
+    .status-inactive { background:#fee2e2; color:#991b1b; }
+    .actions-cell { display:flex; align-items:center; gap:8px; }
+    .icon-btn { width: 32px; height: 32px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; border:1px solid #e5e7eb; cursor:pointer; background:#f9fafb; text-decoration:none; }
+    .icon-btn.view { background:#f3f4f6; color:#374151; }
+    .icon-btn.edit { background:#eff6ff; color:#2563eb; border-color:#bfdbfe; }
+    .icon-btn.delete { background:#fef2f2; color:#dc2626; border-color:#fecaca; }
     .pagination { display:flex; align-items:center; gap: 8px; justify-content: flex-end; margin-top: 12px; }
   `],
   template: `
@@ -70,7 +85,7 @@ import { MatButton } from '@angular/material/button';
           </div>
         </div>
 
-        <div *ngIf="showCreate">
+        @if (showCreate) {
           <mat-card appearance="outlined" style="margin-bottom:12px;">
             <mat-card-header>
               <mat-card-title>Nuevo usuario</mat-card-title>
@@ -95,20 +110,35 @@ import { MatButton } from '@angular/material/button';
               </form>
             </mat-card-content>
           </mat-card>
-        </div>
+        }
 
         <table>
           <thead>
-            <tr><th>Nombre</th><th>Email</th><th>Estado</th><th>Roles</th><th></th></tr>
+            <tr><th>Nombre</th><th>Email</th><th>Status</th><th>Action</th></tr>
           </thead>
           <tbody>
-            <tr *ngFor="let u of list()">
-              <td>{{u.fullName}}</td>
-              <td>{{u.email}}</td>
-              <td>{{u.isActive ? 'Activo':'Inactivo'}}</td>
-              <td>{{u.roles.join(', ')}}</td>
-              <td><a mat-button color="primary" [routerLink]="['/admin/users', u.id]">ver</a></td>
-            </tr>
+            @for (u of list(); track u.id) {
+              <tr>
+                <td>{{u.fullName}}</td>
+                <td>{{u.email}}</td>
+                <td>
+                  <span class="status-badge" [class.status-active]="u.isActive" [class.status-inactive]="!u.isActive">
+                    {{ u.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="actions-cell">
+                  <a class="icon-btn view" [routerLink]="['/admin/users', u.id]" title="Ver">
+                    <mat-icon>visibility</mat-icon>
+                  </a>
+                  <a class="icon-btn edit" [routerLink]="['/admin/users', u.id]" title="Editar">
+                    <mat-icon>edit</mat-icon>
+                  </a>
+                  <button class="icon-btn delete" type="button" (click)="deleteUser(u.id)" title="Eliminar">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
 
@@ -123,7 +153,9 @@ import { MatButton } from '@angular/material/button';
 })
 export class UsersPage implements OnInit {
   private store = inject(UsersStore);
+  private api = inject(UsersService);
   private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
   private syncTotal = effect(() => { this.total = this.store.total(); });
 
   limit = 10;
@@ -175,5 +207,26 @@ export class UsersPage implements OnInit {
     this.store.create(this.createForm.getRawValue(), this.limit, this.offset, this.buildFilters());
     this.showCreate = false;
     this.createForm.reset();
+  }
+
+  deleteUser(id: string) {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: 'Eliminar usuario',
+          message: 'Esta acción no se puede deshacer. ¿Deseas eliminar al usuario?',
+          confirmText: 'Eliminar',
+          cancelText: 'Cancelar',
+          variant: 'danger',
+          icon: 'delete_forever',
+        },
+        autoFocus: false,
+        restoreFocus: true,
+      })
+      .afterClosed()
+      .subscribe((ok) => {
+        if (!ok) return;
+        this.api.remove(id).subscribe({ next: () => this.load() });
+      });
   }
 }

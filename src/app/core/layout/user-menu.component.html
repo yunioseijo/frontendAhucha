@@ -1,23 +1,45 @@
-<ng-container *ngIf="auth.isAuthenticated() && auth.user() as u">
-  <button mat-icon-button class="avatar-btn" [matMenuTriggerFor]="userMenu" aria-label="Cuenta" title="Cuenta">
-    <img *ngIf="u.avatarUrl; else userIcon" [src]="u.avatarUrl" alt="avatar" />
-    <ng-template #userIcon>
-      <mat-icon>account_circle</mat-icon>
-    </ng-template>
+@if (auth.isAuthenticated() && auth.user(); as u) {
+<button mat-icon-button class="avatar-btn" [matMenuTriggerFor]="userMenu" aria-label="Cuenta" title="Cuenta">
+  @if (u.avatarUrl) {
+  <img [src]="u.avatarUrl" alt="avatar" />
+  } @else {
+  <mat-icon>account_circle</mat-icon>
+  }
+</button>
+<mat-menu #userMenu="matMenu" xPosition="before">
+  <div style="padding: 8px 16px 0 16px; display: flex; align-items: center; gap: 12px;">
+    @if (u.avatarUrl) {
+    <img [src]="u.avatarUrl" alt="avatar"
+      style="width:40px;height:40px;border-radius:50%;border:1px solid #e0e0e0;object-fit:cover;" />
+    } @else {
+    <mat-icon style="font-size:40px;color:#bdbdbd;">account_circle</mat-icon>
+    }
+    <div>
+      <div style="font-weight:600;font-size:16px;">{{u.fullName || u.username || u.email}}</div>
+      <div style="font-size:13px;color:#888;">{{u.email}}</div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <button mat-menu-item [routerLink]="'/account'">
+    <mat-icon>person</mat-icon>
+    <span>Profile</span>
   </button>
-  <mat-menu #userMenu="matMenu" xPosition="before">
-    <button mat-menu-item [routerLink]="'/account'">
-      <mat-icon>person</mat-icon>
-      <span>Perfil</span>
-    </button>
-    <button mat-menu-item [routerLink]="'/settings'">
-      <mat-icon>settings</mat-icon>
-      <span>Ajustes</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Salir</span>
-    </button>
-  </mat-menu>
-</ng-container>
+  <button mat-menu-item [routerLink]="'/settings'">
+    <mat-icon>settings</mat-icon>
+    <span>Settings</span>
+  </button>
+  <button mat-menu-item [routerLink]="'/calendar'">
+    <mat-icon>calendar_today</mat-icon>
+    <span>Calendar</span>
+  </button>
+  <button mat-menu-item [routerLink]="'/inbox'">
+    <mat-icon>mail</mat-icon>
+    <span>Inbox</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>power_settings_new</mat-icon>
+    <span>Log out</span>
+  </button>
+</mat-menu>
+}

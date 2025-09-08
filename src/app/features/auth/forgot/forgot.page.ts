@@ -13,7 +13,9 @@ import { AuthService } from '@auth/services/auth.service';
       <label>Email <input formControlName="email" type="email" /></label>
       <button type="submit" [disabled]="form.invalid || loading">Enviar enlace</button>
     </form>
-    <p *ngIf="ok" style="color:green">Si el correo existe, se envió el enlace.</p>
+    @if (ok) {
+      <p style="color:green">Si el correo existe, se envió el enlace.</p>
+    }
   `
 })
 export class ForgotPage {

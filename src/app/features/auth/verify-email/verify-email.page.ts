@@ -15,7 +15,9 @@ import { AuthService } from '@auth/services/auth.service';
       <label>Token <input formControlName="token" /></label>
       <button type="submit" [disabled]="form.invalid">Verificar</button>
     </form>
-    <p *ngIf="ok" style="color:green">Email verificado.</p>
+    @if (ok) {
+      <p style="color:green">Email verificado.</p>
+    }
   `
 })
 export class VerifyEmailPage {

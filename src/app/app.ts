@@ -9,9 +9,16 @@ import { UserMenuComponent } from '@core/layout/user-menu.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIf, MatToolbar, MatButton, UserMenuComponent],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatToolbar,
+    MatButton,
+    UserMenuComponent,
+  ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App implements OnInit {
   title = 'ahucha';
@@ -23,5 +30,4 @@ export class App implements OnInit {
       this.auth.loadMe().subscribe({ error: () => this.auth.clearTokens() });
     }
   }
-
 }

@@ -1,5 +1,6 @@
 <div class="page">
-  <div class="container" *ngIf="auth.user() as u; else loadingTpl">
+  @if (auth.user(); as u) {
+  <div class="container">
     <mat-card class="full" appearance="outlined">
       <mat-card-header>
         <img class="avatar" [src]="u.avatarUrl || defaultAvatar" alt="avatar" />
@@ -11,7 +12,9 @@
           <mat-form-field appearance="outline">
             <mat-label>Nombre completo</mat-label>
             <input matInput formControlName="fullName" />
-            <mat-error *ngIf="profileForm.controls.fullName.hasError('required')">Requerido</mat-error>
+            @if (profileForm.controls.fullName.hasError('required')) {
+            <mat-error>Requerido</mat-error>
+            }
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Usuario</mat-label>
@@ -43,7 +46,8 @@
             <input matInput formControlName="timezone" />
           </mat-form-field>
           <div class="actions full">
-            <button mat-stroked-button type="button" (click)="profileForm.reset(profileForm.getRawValue())">Cancelar</button>
+            <button mat-stroked-button type="button"
+              (click)="profileForm.reset(profileForm.getRawValue())">Cancelar</button>
             <button mat-raised-button color="primary" type="submit">Guardar</button>
           </div>
         </form>
@@ -60,13 +64,19 @@
             <mat-form-field appearance="outline">
               <mat-label>Actual</mat-label>
               <input matInput type="password" formControlName="currentPassword" />
-              <mat-error *ngIf="passwordForm.controls.currentPassword.hasError('required')">Requerida</mat-error>
+              @if (passwordForm.controls.currentPassword.hasError('required')) {
+              <mat-error>Requerida</mat-error>
+              }
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Nueva</mat-label>
               <input matInput type="password" formControlName="newPassword" />
-              <mat-error *ngIf="passwordForm.controls.newPassword.hasError('required')">Requerida</mat-error>
-              <mat-error *ngIf="passwordForm.controls.newPassword.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+              @if (passwordForm.controls.newPassword.hasError('required')) {
+              <mat-error>Requerida</mat-error>
+              }
+              @if (passwordForm.controls.newPassword.hasError('minlength')) {
+              <mat-error>Mínimo 6 caracteres</mat-error>
+              }
             </mat-form-field>
             <div class="actions">
               <button mat-raised-button color="primary" type="submit">Actualizar</button>
@@ -91,7 +101,9 @@
       </mat-card-content>
     </mat-card>
   </div>
+  } @else {
+  <div class="container">
+    <mat-card appearance="outlined"><mat-card-content>Cargando...</mat-card-content></mat-card>
+  </div>
+  }
 </div>
-<ng-template #loadingTpl>
-  <div class="page"><div class="container"><mat-card appearance="outlined"><mat-card-content>Cargando...</mat-card-content></mat-card></div></div>
-</ng-template>
