@@ -1,8 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { MatIcon } from '@angular/material/icon';
-import { MatDivider } from '@angular/material/divider';
 import { AuthService } from '@auth/services/auth.service';
 
 @Component({
@@ -10,18 +7,18 @@ import { AuthService } from '@auth/services/auth.service';
   standalone: true,
   imports: [
     RouterLink,
-    MatMenu,
-    MatMenuItem,
-    MatMenuTrigger,
-    MatIcon,
-    MatDivider,
   ],
   templateUrl: './user-menu.component.html',
+  styleUrl: './user-menu.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent {
   auth = inject(AuthService);
   private router = inject(Router);
+  open = false;
+
+  toggle() { this.open = !this.open; }
+  close() { this.open = false; }
 
   logout() {
     this.auth.logoutAll().subscribe({
@@ -29,4 +26,15 @@ export class UserMenuComponent {
       error: () => this.router.navigate(['/auth/login']),
     });
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(ev: MouseEvent) {
+    const target = ev.target as HTMLElement | null;
+    if (!target) return;
+    if (!target.closest('.usermenu')) this.close();
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() { this.close(); }
+
 }

@@ -19,12 +19,18 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
               "src/styles.scss",
               "src/tokens.scss",
-              "src/assets/styles/ngm-dev-blocks-styles.scss"
+              "src/assets/styles/ngm-dev-blocks-styles.scss",
+              "src/styles.design.scss"
             ]
           },
           "configurations": {
@@ -75,10 +81,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/styles.design.scss"
             ]
           }
         }

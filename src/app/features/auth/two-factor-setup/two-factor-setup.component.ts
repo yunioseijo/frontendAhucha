@@ -2,11 +2,6 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
-import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent } from '@angular/material/card';
-import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
 import { finalize, timeout } from 'rxjs/operators';
 
 @Component({
@@ -15,17 +10,6 @@ import { finalize, timeout } from 'rxjs/operators';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatInput,
-    MatButton,
-    MatIcon,
   ],
   styleUrls: ['./two-factor-setup.component.css'],
   templateUrl: './two-factor-setup.component.html'

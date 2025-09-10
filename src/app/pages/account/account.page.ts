@@ -6,11 +6,8 @@ import { UsersService } from '@shared/api/users.service';
 import { AuthService } from '@auth/services/auth.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent } from '@angular/material/card';
-import { MatFormField, MatLabel, MatError, MatHint } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
 import { TwoFactorSetupComponent } from '@features/auth/two-factor-setup/two-factor-setup.component';
+import { LoadingIndicatorComponent } from '@shared/ui/loading-indicator.component';
 
 @Component({
   selector: 'app-account',
@@ -19,18 +16,8 @@ import { TwoFactorSetupComponent } from '@features/auth/two-factor-setup/two-fac
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatHint,
-    MatInput,
-    MatButton,
     TwoFactorSetupComponent,
+    LoadingIndicatorComponent,
   ],
   templateUrl: './account.page.html',
   styleUrl: './account.page.css'

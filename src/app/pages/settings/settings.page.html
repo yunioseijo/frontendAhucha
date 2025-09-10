@@ -1,15 +1,12 @@
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Ajustes</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+<div class="card">
+  <div class="card__title">Ajustes</div>
+  <div>
     <h3 style="margin-top:0">Tema</h3>
-    <p style="margin-top:0;color:#6b7280">Elige cómo se ve la aplicación.</p>
-    <mat-button-toggle-group [value]="mode()" (valueChange)="setMode($event)" appearance="standard">
-      <mat-button-toggle value="light">Claro</mat-button-toggle>
-      <mat-button-toggle value="dark">Oscuro</mat-button-toggle>
-      <mat-button-toggle value="system">Sistema</mat-button-toggle>
-    </mat-button-toggle-group>
-  </mat-card-content>
-</mat-card>
-
+    <p class="form-help" style="margin-top:0">Elige cómo se ve la aplicación.</p>
+    <div class="flex" style="gap:8px; flex-wrap: wrap;">
+      <button class="btn" [ngClass]="mode() === 'light' ? 'btn-secondary' : 'btn'" (click)="setMode('light')">Claro</button>
+      <button class="btn" [ngClass]="mode() === 'dark' ? 'btn-secondary' : 'btn'" (click)="setMode('dark')">Oscuro</button>
+      <button class="btn" [ngClass]="mode() === 'system' ? 'btn-secondary' : 'btn'" (click)="setMode('system')">Sistema</button>
+    </div>
+  </div>
+</div>

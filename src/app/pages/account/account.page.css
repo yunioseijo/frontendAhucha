@@ -11,6 +11,5 @@
 }
 .grid-2 { display: grid; gap: 12px; grid-template-columns: 1fr; }
 @media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
-mat-form-field { width: 100%; }
+.grid-2 > div { width: 100%; }
 .actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
-

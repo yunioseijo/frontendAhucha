@@ -1,13 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
-import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
 import { ThemeService } from '@core/layout/theme.service';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatButtonToggleGroup, MatButtonToggle],
+  imports: [CommonModule],
   templateUrl: './settings.page.html',
 })
 export class SettingsPage {
@@ -18,4 +16,3 @@ export class SettingsPage {
     this.theme.set(value);
   }
 }
-

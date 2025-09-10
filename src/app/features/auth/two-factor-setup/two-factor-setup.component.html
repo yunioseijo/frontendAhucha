@@ -1,76 +1,73 @@
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Seguridad 2FA</mat-card-title>
-    <mat-card-subtitle>Protege tu cuenta con autenticación en dos pasos</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="step">
-      <button mat-stroked-button color="primary" (click)="setup()" [disabled]="loadingSetup">
-        <mat-icon>qr_code</mat-icon>
-        <span>{{ loadingSetup ? 'Generando…' : 'Generar QR' }}</span>
+<div class="card">
+  <div class="card__title">Seguridad 2FA</div>
+  <div class="card__subtitle">Protege tu cuenta con autenticación en dos pasos</div>
+
+  <div class="step">
+    <button class="btn-ghost" (click)="setup()" [disabled]="loadingSetup">
+      <span class="material-symbols-outlined" aria-hidden="true">qr_code_2</span>
+      <span>{{ loadingSetup ? 'Generando…' : 'Generar QR' }}</span>
+    </button>
+  </div>
+
+  @if (otpauth) {
+    <div class="qr">
+      <img [src]="qrUrl" alt="QR 2FA" width="200" height="200" />
+    </div>
+  }
+
+  @if (secret) {
+    <div class="secret">
+      <div class="secret-label">Código secreto (Base32)</div>
+      <code>{{ secret }}</code>
+    </div>
+  }
+
+  @if (otpauth) {
+    <form [formGroup]="form" (ngSubmit)="enable()" class="enable-form">
+      <div>
+        <label for="code">Código de tu App</label>
+        <input id="code" inputmode="numeric" maxlength="8" formControlName="code" placeholder="123456" />
+        @if (form.controls.code.hasError('required')) {
+          <div class="form-error">Requerido</div>
+        }
+        @if (form.controls.code.hasError('minlength')) {
+          <div class="form-error">Mínimo 6 dígitos</div>
+        }
+      </div>
+      <button class="btn-primary" type="submit" [disabled]="form.invalid || loadingEnable">
+        <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+        <span>{{ loadingEnable ? 'Activando…' : 'Activar 2FA' }}</span>
       </button>
-    </div>
+    </form>
+  }
 
-    @if (otpauth) {
-      <div class="qr">
-        <img [src]="qrUrl" alt="QR 2FA" width="200" height="200" />
+  @if (ok) {
+    <div class="ok">2FA activado correctamente.</div>
+  }
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  <div class="disable-section">
+    <h3>Desactivar 2FA</h3>
+    <form [formGroup]="disableForm" (ngSubmit)="disable()" class="enable-form">
+      <div>
+        <label for="disableCode">Código actual</label>
+        <input id="disableCode" inputmode="numeric" maxlength="8" formControlName="code" placeholder="123456" />
+        @if (disableForm.controls.code.hasError('required')) {
+          <div class="form-error">Requerido</div>
+        }
+        @if (disableForm.controls.code.hasError('minlength')) {
+          <div class="form-error">Mínimo 6 dígitos</div>
+        }
       </div>
+      <button class="btn-ghost" type="submit" [disabled]="disableForm.invalid || loadingDisable">
+        <span class="material-symbols-outlined" aria-hidden="true">block</span>
+        <span>{{ loadingDisable ? 'Desactivando…' : 'Desactivar 2FA' }}</span>
+      </button>
+    </form>
+    @if (okDisable) {
+      <div class="ok">2FA desactivado correctamente.</div>
     }
-
-    @if (secret) {
-      <div class="secret">
-        <div class="secret-label">Código secreto (Base32)</div>
-        <code>{{ secret }}</code>
-      </div>
-    }
-
-    @if (otpauth) {
-      <form [formGroup]="form" (ngSubmit)="enable()" class="enable-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Código de tu App</mat-label>
-          <input matInput inputmode="numeric" maxlength="8" formControlName="code" placeholder="123456" />
-          @if (form.controls.code.hasError('required')) {
-            <mat-error>Requerido</mat-error>
-          }
-          @if (form.controls.code.hasError('minlength')) {
-            <mat-error>Mínimo 6 dígitos</mat-error>
-          }
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loadingEnable">
-          <mat-icon>verified_user</mat-icon>
-          <span>{{ loadingEnable ? 'Activando…' : 'Activar 2FA' }}</span>
-        </button>
-      </form>
-    }
-
-    @if (ok) {
-      <div class="ok">2FA activado correctamente.</div>
-    }
-    @if (error) {
-      <div class="error">{{ error }}</div>
-    }
-
-    <div class="disable-section">
-      <h3>Desactivar 2FA</h3>
-      <form [formGroup]="disableForm" (ngSubmit)="disable()" class="enable-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Código actual</mat-label>
-          <input matInput inputmode="numeric" maxlength="8" formControlName="code" placeholder="123456" />
-          @if (disableForm.controls.code.hasError('required')) {
-            <mat-error>Requerido</mat-error>
-          }
-          @if (disableForm.controls.code.hasError('minlength')) {
-            <mat-error>Mínimo 6 dígitos</mat-error>
-          }
-        </mat-form-field>
-        <button mat-stroked-button color="warn" type="submit" [disabled]="disableForm.invalid || loadingDisable">
-          <mat-icon>block</mat-icon>
-          <span>{{ loadingDisable ? 'Desactivando…' : 'Desactivar 2FA' }}</span>
-        </button>
-      </form>
-      @if (okDisable) {
-        <div class="ok">2FA desactivado correctamente.</div>
-      }
-    </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

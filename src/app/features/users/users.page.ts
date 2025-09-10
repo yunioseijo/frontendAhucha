@@ -3,15 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { UsersStore } from './data/users.store';
-import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatSelect, MatOption } from '@angular/material/select';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+ 
 import { UsersService } from '@shared/api/users.service';
-import { ConfirmDialogComponent } from '@shared/ui/confirm-dialog.component';
+import { ConfirmModalComponent } from '@shared/ui/confirm-modal.component';
 
 @Component({
   selector: 'app-users',
@@ -21,18 +15,7 @@ import { ConfirmDialogComponent } from '@shared/ui/confirm-dialog.component';
     RouterLink,
     FormsModule,
     ReactiveFormsModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatSelect,
-    MatOption,
-    MatButton,
-    MatIcon,
-    MatDialogModule,
+    ConfirmModalComponent,
   ],
   styles: [`
     :host { display: block; }
@@ -53,63 +36,56 @@ import { ConfirmDialogComponent } from '@shared/ui/confirm-dialog.component';
     .pagination { display:flex; align-items:center; gap: 8px; justify-content: flex-end; margin-top: 12px; }
   `],
   template: `
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <mat-card-title>Usuarios</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
+    <div class="card">
+      <div class="card__title">Usuarios</div>
         <div class="filters">
-          <mat-form-field appearance="outline">
-            <mat-label>Buscar</mat-label>
-            <input matInput placeholder="Nombre o email" [(ngModel)]="search" (ngModelChange)="onFilters()" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Rol</mat-label>
-            <mat-select [(ngModel)]="role" (selectionChange)="onFilters()">
-              <mat-option [value]="''">Todos</mat-option>
-              <mat-option value="user">user</mat-option>
-              <mat-option value="admin">admin</mat-option>
-              <mat-option value="super-user">super-user</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Estado</mat-label>
-            <mat-select [(ngModel)]="status" (selectionChange)="onFilters()">
-              <mat-option [value]="''">Todos</mat-option>
-              <mat-option value="active">Activo</mat-option>
-              <mat-option value="inactive">Inactivo</mat-option>
-            </mat-select>
-          </mat-form-field>
           <div>
-            <button mat-stroked-button color="primary" (click)="toggleCreate()">{{ showCreate ? 'Cancelar' : 'Crear usuario' }}</button>
+            <label for="search">Buscar</label>
+            <input id="search" placeholder="Nombre o email" [(ngModel)]="search" (ngModelChange)="onFilters()" />
+          </div>
+          <div>
+            <label for="role">Rol</label>
+            <select id="role" [(ngModel)]="role" (change)="onFilters()">
+              <option [ngValue]="''">Todos</option>
+              <option value="user">user</option>
+              <option value="admin">admin</option>
+              <option value="super-user">super-user</option>
+            </select>
+          </div>
+          <div>
+            <label for="status">Estado</label>
+            <select id="status" [(ngModel)]="status" (change)="onFilters()">
+              <option [ngValue]="''">Todos</option>
+              <option value="active">Activo</option>
+              <option value="inactive">Inactivo</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn-ghost" (click)="toggleCreate()">{{ showCreate ? 'Cancelar' : 'Crear usuario' }}</button>
           </div>
         </div>
 
         @if (showCreate) {
-          <mat-card appearance="outlined" style="margin-bottom:12px;">
-            <mat-card-header>
-              <mat-card-title>Nuevo usuario</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card__title">Nuevo usuario</div>
               <form [formGroup]="createForm" (ngSubmit)="createUser()" class="filters">
-                <mat-form-field appearance="outline">
-                  <mat-label>Nombre completo</mat-label>
-                  <input matInput formControlName="fullName" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Email</mat-label>
-                  <input matInput type="email" formControlName="email" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Contraseña</mat-label>
-                  <input matInput type="password" formControlName="password" />
-                </mat-form-field>
                 <div>
-                  <button mat-raised-button color="primary" type="submit" [disabled]="createForm.invalid">Crear</button>
+                  <label for="newName">Nombre completo</label>
+                  <input id="newName" formControlName="fullName" />
+                </div>
+                <div>
+                  <label for="newEmail">Email</label>
+                  <input id="newEmail" type="email" formControlName="email" />
+                </div>
+                <div>
+                  <label for="newPass">Contraseña</label>
+                  <input id="newPass" type="password" formControlName="password" />
+                </div>
+                <div>
+                  <button class="btn-primary" type="submit" [disabled]="createForm.invalid">Crear</button>
                 </div>
               </form>
-            </mat-card-content>
-          </mat-card>
+          </div>
         }
 
         <table>
@@ -127,15 +103,9 @@ import { ConfirmDialogComponent } from '@shared/ui/confirm-dialog.component';
                   </span>
                 </td>
                 <td class="actions-cell">
-                  <a class="icon-btn view" [routerLink]="['/admin/users', u.id]" title="Ver">
-                    <mat-icon>visibility</mat-icon>
-                  </a>
-                  <a class="icon-btn edit" [routerLink]="['/admin/users', u.id]" title="Editar">
-                    <mat-icon>edit</mat-icon>
-                  </a>
-                  <button class="icon-btn delete" type="button" (click)="deleteUser(u.id)" title="Eliminar">
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                  <a class="icon-btn view" [routerLink]="['/admin/users', u.id]" title="Ver">👁️</a>
+                  <a class="icon-btn edit" [routerLink]="['/admin/users', u.id]" title="Editar">✏️</a>
+                  <button class="icon-btn delete" type="button" (click)="deleteUser(u.id)" title="Eliminar">🗑️</button>
                 </td>
               </tr>
             }
@@ -143,19 +113,26 @@ import { ConfirmDialogComponent } from '@shared/ui/confirm-dialog.component';
         </table>
 
         <div class="pagination">
-          <button mat-stroked-button (click)="prev()" [disabled]="offset===0">Anterior</button>
+          <button class="btn-ghost" (click)="prev()" [disabled]="offset===0">Anterior</button>
           <span>{{offset+1}}-{{math.min(offset+limit,total)}} de {{total}}</span>
-          <button mat-stroked-button (click)="next()" [disabled]="offset+limit>=total">Siguiente</button>
+          <button class="btn-ghost" (click)="next()" [disabled]="offset+limit>=total">Siguiente</button>
         </div>
-      </mat-card-content>
-    </mat-card>
+    </div>
+    <app-confirm-modal
+      [open]="showConfirm"
+      title="Eliminar usuario"
+      message="Esta acción no se puede deshacer. ¿Deseas eliminar al usuario?"
+      confirmText="Eliminar"
+      cancelText="Cancelar"
+      (confirm)="onConfirmDelete()"
+      (cancel)="showConfirm=false">
+    </app-confirm-modal>
   `
 })
 export class UsersPage implements OnInit {
   private store = inject(UsersStore);
   private api = inject(UsersService);
   private fb = inject(FormBuilder);
-  private dialog = inject(MatDialog);
   private syncTotal = effect(() => { this.total = this.store.total(); });
 
   limit = 10;
@@ -171,6 +148,8 @@ export class UsersPage implements OnInit {
 
   // create form
   showCreate = false;
+  showConfirm = false;
+  pendingDeleteId: string | null = null;
   createForm = this.fb.nonNullable.group({
     fullName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
@@ -210,23 +189,14 @@ export class UsersPage implements OnInit {
   }
 
   deleteUser(id: string) {
-    this.dialog
-      .open(ConfirmDialogComponent, {
-        data: {
-          title: 'Eliminar usuario',
-          message: 'Esta acción no se puede deshacer. ¿Deseas eliminar al usuario?',
-          confirmText: 'Eliminar',
-          cancelText: 'Cancelar',
-          variant: 'danger',
-          icon: 'delete_forever',
-        },
-        autoFocus: false,
-        restoreFocus: true,
-      })
-      .afterClosed()
-      .subscribe((ok) => {
-        if (!ok) return;
-        this.api.remove(id).subscribe({ next: () => this.load() });
-      });
+    this.pendingDeleteId = id;
+    this.showConfirm = true;
+  }
+  onConfirmDelete() {
+    if (!this.pendingDeleteId) return;
+    const id = this.pendingDeleteId;
+    this.pendingDeleteId = null;
+    this.showConfirm = false;
+    this.api.remove(id).subscribe({ next: () => this.load() });
   }
 }

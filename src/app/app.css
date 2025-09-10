@@ -1,16 +1,4 @@
-.spacer {
-  flex: 1 1 auto;
-}
-
-.app-container {
-  padding: 16px;
-}
-
-/* Marca visual para el link activo en la barra */
-mat-toolbar a.active {
-  text-decoration: underline;
-  font-weight: 600;
-}
+.app-container { padding: 16px; }
 
 /* Avatar button in navbar */
 .avatar-btn img {

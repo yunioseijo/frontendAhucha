@@ -1,19 +1,24 @@
-<mat-toolbar color="primary">
-  <span>Ahucha</span>
-  <span class="spacer"></span>
-  @if (!auth.isAuthenticated()) {
-    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
-    <a mat-button routerLink="/auth/login" routerLinkActive="active">Entrar</a>
-    <a mat-button routerLink="/auth/register" routerLinkActive="active">Registro</a>
-  } @else {
-    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
-    <a mat-button routerLink="/admin/users" routerLinkActive="active">Admin</a>
-  }
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" routerLink="/" aria-label="Inicio">
+      <img src="/logo.png" alt="Ahucha" />
+      <span class="sr-only">Ahucha</span>
+    </a>
 
-  <!-- Menú de usuario (componente) -->
-  <app-user-menu></app-user-menu>
-  </mat-toolbar>
+    <nav class="navbar__nav" aria-label="Principal">
+      @if (auth.isAuthenticated()) {
+        <a class="navbar__link" routerLink="/account" routerLinkActive="active">Mi cuenta</a>
+        <a class="navbar__link" routerLink="/admin/users" routerLinkActive="active">Admin</a>
+        <app-user-menu></app-user-menu>
+      } @else {
+        <a class="navbar__link" routerLink="/auth/login" routerLinkActive="active">Entrar</a>
+        <a class="navbar__link" routerLink="/auth/register" routerLinkActive="active">Registro</a>
+      }
+    </nav>
+  </div>
+</header>
 
-<main class="app-container">
+<main>
   <router-outlet />
+  
 </main>

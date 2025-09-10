@@ -1,9 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NgIf } from '@angular/common';
 import { AuthService } from '@auth/services/auth.service';
-import { MatToolbar } from '@angular/material/toolbar';
-import { MatButton } from '@angular/material/button';
 import { ThemeService } from '@core/layout/theme.service';
 import { UserMenuComponent } from '@core/layout/user-menu.component';
 
@@ -13,8 +10,6 @@ import { UserMenuComponent } from '@core/layout/user-menu.component';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    MatToolbar,
-    MatButton,
     UserMenuComponent,
   ],
   templateUrl: './app.html',
