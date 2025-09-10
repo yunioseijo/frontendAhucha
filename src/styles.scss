@@ -1,3 +1,8 @@
+/* Tailwind CSS (v4) — load first for preflight */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @use '@angular/material' as mat;
 
 // Core styles (typography, density)

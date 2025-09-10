@@ -17,11 +17,26 @@ import {
 import { AuthService } from '@auth/services/auth.service';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import {
+  BreadcrumbsComponent,
+  BreadcrumbItemDirective,
+  BreadcrumbSeparatorDirective,
+} from '@shared/components/breadcrumbs/breadcrumbs';
+import { MatIcon } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-admin-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    BreadcrumbsComponent,
+    BreadcrumbItemDirective,
+    BreadcrumbSeparatorDirective,
+    MatButtonModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-shell.component.html',
   styleUrls: ['./admin-shell.component.css'],
