@@ -1,63 +1,25 @@
-/* Tailwind CSS (v4) — load first for preflight */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use 'sass:meta';
+@use "./variables";
 
-// Core styles (typography, density)
-@include mat.core();
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    // typography: Roboto,
+    typography: (
+        plain-family: #{meta.inspect(variables.$regular-font-family)},
+        brand-family: #{meta.inspect(variables.$heading-font-family)},
+    ),
+    density: 0,
+  ));
+}/* You can add global styles to this file, and also import other style files */
 
-// M2 palettes (stable + simple). You can switch to M3 tokens later if you prefer.
-$primary: mat.m2-define-palette(mat.$m2-indigo-palette);
-$accent:  mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
-$warn:    mat.m2-define-palette(mat.$m2-red-palette);
-
-$light-theme: mat.m2-define-light-theme((
-  color: (
-    primary: $primary,
-    accent: $accent,
-    warn: $warn,
-  ),
-  typography: mat.m2-define-typography-config(),
-  density: 0,
-));
-
-$dark-theme: mat.m2-define-dark-theme((
-  color: (
-    primary: $primary,
-    accent: $accent,
-    warn: $warn,
-  ),
-  typography: mat.m2-define-typography-config(),
-  density: 0,
-));
-
-// Host-level classes to scope the active theme
-.light-theme {
-  @include mat.all-component-themes($light-theme);
-  --app-bg: #f6f7fb;
-  --app-text: #111827;
-}
-
-.dark-theme {
-  @include mat.all-component-themes($dark-theme);
-  --app-bg: #0b1020;
-  --app-text: #e5e7eb;
-}
-
-// Base document styling using CSS vars
-html, body, app-root {
-  height: 100%;
-}
-body {
-  margin: 0;
-  background: var(--app-bg);
-  color: var(--app-text);
-  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
-}
-
-// Utility classes
-.spacer { flex: 1 1 auto; }
-.container { padding: 16px; }
-
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

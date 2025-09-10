@@ -1,24 +1,26 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Bienvenido a Ahucha</mat-card-title>
-    <mat-card-subtitle>Gestión de usuarios</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    @if (!auth.isAuthenticated()) {
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-primary-700 p-6">
+  <mat-card class="max-w-xl w-full glass text-white shadow-2xl">
+    <mat-card-header>
+      <mat-card-title>Bienvenido a Ahucha</mat-card-title>
+      <mat-card-subtitle>Gestiona clientes, contratos y facturas de manera simple y eficiente.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="p-8">
+      @if (!auth.isAuthenticated()) {
       <p>Inicia sesión o crea una cuenta para continuar.</p>
-    } @else {
+      } @else {
       <p>Sesión iniciada como <b>{{ auth.user()?.email }}</b></p>
-    }
-  </mat-card-content>
-  <mat-card-actions>
-    @if (!auth.isAuthenticated()) {
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      @if (!auth.isAuthenticated()) {
       <a mat-raised-button color="primary" routerLink="/auth/login">Entrar</a>
       <a mat-stroked-button color="primary" routerLink="/auth/register">Registro</a>
-    } @else {
+      } @else {
       <a mat-raised-button color="primary" routerLink="/account">Mi cuenta</a>
       @if (auth.roles().includes('admin') || auth.roles().includes('super-user')) {
-        <a mat-stroked-button color="accent" routerLink="/admin/users">Admin</a>
+      <a mat-stroked-button color="accent" routerLink="/admin/users">Admin</a>
       }
-    }
-  </mat-card-actions>
-</mat-card>
+      }
+    </mat-card-actions>
+  </mat-card>
+</section>
