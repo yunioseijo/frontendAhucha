@@ -10,6 +10,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { authInterceptor } from '@auth/interceptors/auth.interceptor';
+import { errorInterceptor } from '@core/http/error.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       },
     },
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorInterceptor])),
     provideAnimations(),
   ],
 };
