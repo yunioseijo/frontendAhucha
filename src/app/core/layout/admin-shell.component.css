@@ -20,3 +20,4 @@
 .sidebar__link.active { color: var(--cerulean); background: rgba(8,124,167,0.12); }
 
 .breadcrumbs { display:flex; align-items:center; gap: 6px; font-weight: 500; }
+.spacer { flex: 1 1 auto; }
