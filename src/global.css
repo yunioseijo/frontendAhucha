@@ -93,8 +93,7 @@ input, select, textarea, button {
   font: inherit;
 }
 
-input[type=text], input[type=email], input[type=password],
-input[type=number], select, textarea {
+input[type=text], input[type=email], input[type=password], input[type=tel], input[type=number], select, textarea {
   width: 100%;
   background: #fff;
   color: #212529;

@@ -1,0 +1,91 @@
+<div class="card">
+  <div class="card__title">Usuarios</div>
+  <div class="flex justify-around items-end">
+    <div>
+      <label for="search">Buscar</label>
+      <input id="search" type="text" placeholder="Nombre o email" [(ngModel)]="search" (ngModelChange)="onFilters()" />
+    </div>
+    <div>
+      <label for="role">Rol</label>
+      <select id="role" [(ngModel)]="role" (change)="onFilters()">
+        <option [ngValue]="''">Todos</option>
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+        <option value="super-user">super-user</option>
+      </select>
+    </div>
+    <div>
+      <label for="status">Estado</label>
+      <select id="status" [(ngModel)]="status" (change)="onFilters()">
+        <option [ngValue]="''">Todos</option>
+        <option value="active">Activo</option>
+        <option value="inactive">Inactivo</option>
+      </select>
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="toggleCreate()">{{ showCreate ? 'Cancelar' : 'Crear usuario' }}</button>
+    </div>
+  </div>
+
+  @if (showCreate) {
+  <div class="card mb-1 mt-4">
+    <div class="card__title">Nuevo usuario</div>
+    <form [formGroup]="createForm" (ngSubmit)="createUser()" class="filters">
+      <div>
+        <label for="newName">Nombre completo</label>
+        <input id="newName" type="text" formControlName="fullName" />
+      </div>
+      <div>
+        <label for="newEmail">Email</label>
+        <input id="newEmail" type="email" formControlName="email" />
+      </div>
+      <div>
+        <label for="newPass">Contraseña</label>
+        <input id="newPass" type="password" formControlName="password" />
+      </div>
+      <div>
+        <button class="btn-primary" type="submit" [disabled]="createForm.invalid">Crear</button>
+      </div>
+    </form>
+  </div>
+  }
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (u of list(); track u.id) {
+      <tr>
+        <td>{{u.fullName}}</td>
+        <td>{{u.email}}</td>
+        <td>
+          <span class="status-badge" [class.status-active]="u.isActive" [class.status-inactive]="!u.isActive">
+            {{ u.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td class="actions-cell">
+          <a class="icon-btn view" [routerLink]="['/admin/users', u.id]" title="Ver">👁️</a>
+          <a class="icon-btn edit" [routerLink]="['/admin/users', u.id]" title="Editar">✏️</a>
+          <button class="icon-btn delete" type="button" (click)="deleteUser(u.id)" title="Eliminar">🗑️</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button class="btn-ghost" (click)="prev()" [disabled]="offset===0">Anterior</button>
+    <span>{{offset+1}}-{{math.min(offset+limit,total)}} de {{total}}</span>
+    <button class="btn-ghost" (click)="next()" [disabled]="offset+limit>=total">Siguiente</button>
+  </div>
+</div>
+<app-confirm-modal [open]="showConfirm" title="Eliminar usuario"
+  message="Esta acción no se puede deshacer. ¿Deseas eliminar al usuario?" confirmText="Eliminar" cancelText="Cancelar"
+  (confirm)="onConfirmDelete()" (cancel)="showConfirm=false">
+</app-confirm-modal>

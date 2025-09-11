@@ -1,0 +1,8 @@
+:host { display: block; }
+.grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+.grid > div { width: 100%; }
+.row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 900px) { .row { grid-template-columns: 1fr 1fr; } }
+.actions { display:flex; gap: 8px; }
+
