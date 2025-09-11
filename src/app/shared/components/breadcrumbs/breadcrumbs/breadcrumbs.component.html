@@ -1,5 +1,5 @@
 <nav [attr.aria-label]="ariaLabel()">
-  <ol class="flex items-center list-none p-0 m-0 flex-wrap">
+  <ol class="flex items-center list-none p-0 m-0">
     @for (item of items(); track item; let last = $last; let first = $first) {
     <li>
       <ng-template [ngTemplateOutlet]="item.templateRef" />

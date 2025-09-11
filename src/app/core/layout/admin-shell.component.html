@@ -15,19 +15,16 @@
           <ngm-dev-block-ui-breadcrumbs aria-label="Breadcrumb">
             <a *ngmDevBlockUiBreadcrumbItem routerLink="/admin" class="navbar__link">Admin</a>
             @for (bc of breadcrumbs(); track bc.url; let last = $last) {
-              @if (!last) {
-                <a *ngmDevBlockUiBreadcrumbItem [routerLink]="bc.url" class="navbar__link">{{ bc.label }}</a>
-              } @else {
-                <span *ngmDevBlockUiBreadcrumbItem aria-current="page" class="navbar__link active">{{ bc.label }}</span>
-              }
+            @if (!last) {
+            <a *ngmDevBlockUiBreadcrumbItem [routerLink]="bc.url" class="navbar__link">{{ bc.label }}</a>
+            } @else {
+            <span *ngmDevBlockUiBreadcrumbItem aria-current="page" class="navbar__link active">{{ bc.label }}</span>
+            }
             }
           </ngm-dev-block-ui-breadcrumbs>
         </div>
         <div class="spacer"></div>
-        @if (auth.user(); as u) {
-          <div class="user text-muted">{{ u.fullName }} ({{ u.email }})</div>
-        }
-        <button class="btn btn-secondary" (click)="logout()">Cerrar sesión</button>
+
       </div>
     </header>
     <section class="content">

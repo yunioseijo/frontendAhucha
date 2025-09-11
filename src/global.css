@@ -189,11 +189,12 @@ label {
 
 .btn--secondary, .btn-secondary {
   background: #FE7676;
-  color: #ffffff;
+  color: var(--base-dark);
 }
 
 .btn--secondary:hover, .btn-secondary:hover {
   background: rgb(253.6304347826, 67.3695652174, 67.3695652174);
+  color: var(--base-dark);
 }
 
 .btn--secondary:active, .btn-secondary:active {
@@ -203,12 +204,12 @@ label {
 
 .btn--ghost, .btn-ghost {
   background: transparent;
-  color: #76FEFE;
+  color: #212529;
   border-color: rgba(118, 254, 254, 0.35);
 }
 
 .btn--ghost:hover, .btn-ghost:hover {
-  color: #76FEBA;
+  color: #212529;
   border-color: #76FEBA;
   background: rgba(118, 254, 186, 0.12);
 }
@@ -298,7 +299,8 @@ label {
 .card__title {
   font-weight: 700;
   margin-bottom: 0.25rem;
-  color: #76FEFE;
+  /* Evitar bajo contraste en tarjetas con fondo blanco */
+  color: #212529;
 }
 
 .card__subtitle {
