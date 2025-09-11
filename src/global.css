@@ -178,7 +178,7 @@ label {
 }
 
 .btn--primary:hover, .btn-primary:hover {
-  background: #76BAFE;
+  background: var(--brand-analog-2);
 }
 
 .btn--primary:active, .btn-primary:active {

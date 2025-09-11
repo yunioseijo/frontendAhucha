@@ -1,40 +1,40 @@
 @if (auth.isAuthenticated() && auth.user(); as u) {
-  <div class="usermenu" [class.is-open]="open">
-    <button class="avatar-btn usermenu__trigger" aria-label="Cuenta" title="Cuenta" (click)="toggle()">
+<div class="usermenu" [class.is-open]="open">
+  <button class="avatar-btn rounded-full usermenu__trigger" aria-label="Cuenta" title="Cuenta" (click)="toggle()">
+    @if (u.avatarUrl) {
+    <img [src]="u.avatarUrl" alt="avatar" />
+    } @else {
+    <span class="material-symbols-outlined" aria-hidden="true">account_circle</span>
+    }
+  </button>
+  <div class="usermenu__panel">
+    <div class="usermenu__header">
       @if (u.avatarUrl) {
-        <img [src]="u.avatarUrl" alt="avatar" />
+      <img [src]="u.avatarUrl" alt="avatar" />
       } @else {
-        <span class="material-symbols-outlined" aria-hidden="true">account_circle</span>
+      <span class="material-symbols-outlined" aria-hidden="true">account_circle</span>
       }
-    </button>
-    <div class="usermenu__panel">
-      <div class="usermenu__header">
-        @if (u.avatarUrl) {
-          <img [src]="u.avatarUrl" alt="avatar" />
-        } @else {
-          <span class="material-symbols-outlined" aria-hidden="true">account_circle</span>
-        }
-        <div>
-          <div class="usermenu__name">{{u.fullName || u.username || u.email}}</div>
-          <div class="usermenu__email">{{u.email}}</div>
-        </div>
+      <div>
+        <div class="usermenu__name">{{u.fullName || u.username || u.email}}</div>
+        <div class="usermenu__email">{{u.email}}</div>
       </div>
-      <hr class="usermenu__sep" />
-      <nav>
-        <a class="usermenu__item" [routerLink]="'/account'" (click)="close()">
-          <span class="material-symbols-outlined" aria-hidden="true">person</span> Profile
-        </a>
-        <a class="usermenu__item" [routerLink]="'/settings'" (click)="close()">
-          <span class="material-symbols-outlined" aria-hidden="true">settings</span> Settings
-        </a>
-        <a class="usermenu__item" [routerLink]="'/inbox'" (click)="close()">
-          <span class="material-symbols-outlined" aria-hidden="true">mail</span> Inbox
-        </a>
-      </nav>
-      <hr class="usermenu__sep" />
-      <button class="usermenu__item usermenu__item--danger" (click)="logout()">
-        <span class="material-symbols-outlined" aria-hidden="true">power_settings_new</span> Log out
-      </button>
     </div>
+    <hr class="usermenu__sep" />
+    <nav>
+      <a class="usermenu__item" [routerLink]="'/account'" (click)="close()">
+        <span class="material-symbols-outlined" aria-hidden="true">person</span> Profile
+      </a>
+      <a class="usermenu__item" [routerLink]="'/settings'" (click)="close()">
+        <span class="material-symbols-outlined" aria-hidden="true">settings</span> Settings
+      </a>
+      <a class="usermenu__item" [routerLink]="'/inbox'" (click)="close()">
+        <span class="material-symbols-outlined" aria-hidden="true">mail</span> Inbox
+      </a>
+    </nav>
+    <hr class="usermenu__sep" />
+    <button class="usermenu__item usermenu__item--danger" (click)="logout()">
+      <span class="material-symbols-outlined" aria-hidden="true">power_settings_new</span> Log out
+    </button>
   </div>
+</div>
 }

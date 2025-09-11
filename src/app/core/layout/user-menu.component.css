@@ -1,7 +1,21 @@
 /* Avatar trigger */
-.avatar-btn { padding: 2px; background: #fff; border: 1px solid rgba(0,0,0,0.12); border-radius: 999px; box-shadow: 0 1px 2px rgba(0,0,0,0.08); transition: box-shadow .2s; }
+.avatar-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand);
+  color: var(--base-dark);
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  transition: box-shadow .2s, transform .05s, background .2s;
+}
 .avatar-btn:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
-.avatar-btn img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(0,0,0,0.12); }
+.avatar-btn:active { transform: translateY(1px); }
+.avatar-btn img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: block; border: 1px solid rgba(0,0,0,0.12); }
+.avatar-btn .material-symbols-outlined { font-size: 22px; line-height: 1; display: block; }
 
 /* Dropdown */
 .usermenu { position: relative; display: inline-block; }
