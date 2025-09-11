@@ -38,9 +38,23 @@ export class UsersService {
     return this.http.get<UserListResponseDto>(`${API.baseUrl}/users`, { params });
   }
 
+  listDeleted(
+    limit = 10,
+    offset = 0,
+    filters?: { q?: string; role?: 'admin' | 'super-user' | 'user' }
+  ): Observable<UserListResponseDto> {
+    let params = new HttpParams().set('limit', limit).set('offset', offset).set('onlyDeleted', 'true');
+    if (filters) {
+      if (filters.q && filters.q.trim().length > 0) params = params.set('q', filters.q.trim());
+      if (filters.role) params = params.set('role', filters.role);
+    }
+    return this.http.get<UserListResponseDto>(`${API.baseUrl}/users`, { params });
+  }
+
   get(id: string): Observable<UserResponseDto> { return this.http.get<UserResponseDto>(`${API.baseUrl}/users/${id}`); }
   update(id: string, payload: UpdateUserDto): Observable<UserResponseDto> { return this.http.patch<UserResponseDto>(`${API.baseUrl}/users/${id}`, payload); }
   remove(id: string): Observable<unknown> { return this.http.delete(`${API.baseUrl}/users/${id}`); }
+  purge(id: string): Observable<unknown> { return this.http.delete(`${API.baseUrl}/users/${id}`, { params: new HttpParams().set('permanent', 'true') }); }
   restore(id: string): Observable<unknown> { return this.http.patch(`${API.baseUrl}/users/${id}/restore`, {}); }
   updateRoles(id: string, payload: UpdateUserRolesDto): Observable<UserResponseDto> { return this.http.patch<UserResponseDto>(`${API.baseUrl}/users/${id}/roles`, payload); }
   updateStatus(id: string, payload: UpdateUserStatusDto): Observable<UserResponseDto> { return this.http.patch<UserResponseDto>(`${API.baseUrl}/users/${id}/status`, payload); }

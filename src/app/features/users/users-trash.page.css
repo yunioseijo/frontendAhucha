@@ -1,0 +1,11 @@
+.actions-cell { display:flex; align-items:center; gap:8px; }
+table { width: 100%; border-collapse: collapse; }
+thead th { text-align: left; padding: 10px 12px; font-weight: 600; color:#6b7280; border-bottom: 1px solid #e5e7eb; }
+tbody td { padding: 12px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+tbody tr:hover { background: #fafafa; }
+.icon-btn { padding: 6px 10px; border-radius:8px; border:1px solid #e5e7eb; cursor:pointer; background:#f9fafb; text-decoration:none; }
+.icon-btn.edit { background:#eff6ff; color:#2563eb; border-color:#bfdbfe; }
+.icon-btn.delete { background:#fef2f2; color:#dc2626; border-color:#fecaca; }
+.pagination { display:flex; align-items:center; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+.filters { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 900px) { .filters { grid-template-columns: 1fr 200px 150px auto; align-items: end; } }

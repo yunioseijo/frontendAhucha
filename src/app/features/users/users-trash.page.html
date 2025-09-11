@@ -1,0 +1,75 @@
+<div class="card">
+  <div class="card__title">Papelera de usuarios</div>
+  <div class="filters" style="margin-bottom:12px;">
+    <div>
+      <label for="q">Buscar</label>
+      <input type="text" id="q" placeholder="Nombre o email" [(ngModel)]="q" (ngModelChange)="qModel = $event" />
+    </div>
+    <div>
+      <label for="role">Rol</label>
+      <select id="role" [(ngModel)]="role" (change)="roleModel = $event.target.value">
+        <option [ngValue]="''">Todos</option>
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+        <option value="super-user">super-user</option>
+      </select>
+    </div>
+    <div>
+      <label for="pageSize">Tamaño página</label>
+      <select id="pageSize" [(ngModel)]="limit" (change)="onLimitChange()">
+        <option [ngValue]="10">10</option>
+        <option [ngValue]="25">25</option>
+        <option [ngValue]="50">50</option>
+      </select>
+    </div>
+    <div style="display:flex; justify-content:flex-end;">
+      @let vm = (vm$ | async);
+      <button class="btn-secondary" (click)="askPurgeAll()" [disabled]="!(vm?.total)">Vaciar papelera</button>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Eliminado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (u of list; track u.id) {
+      <tr>
+        <td>{{u.fullName}}</td>
+        <td>{{u.email}}</td>
+        <td>{{ u.deletedAt ? (u.deletedAt | date:'medium') : '—' }}</td>
+        <td class="actions-cell">
+          <button class="icon-btn edit" type="button" (click)="askRestore(u.id)">Restaurar</button>
+          <button class="icon-btn delete" type="button" (click)="askHardDelete(u.id)">Eliminar permanente</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  @let vm = (vm$ | async);
+  <div class="pagination">
+    <button class="btn-ghost" (click)="prev()" [disabled]="offset===0">Anterior</button>
+    <span>{{offset+1}}-{{math.min(offset+limit, vm?.total || 0)}} de {{vm?.total || 0}}</span>
+    <button class="btn-ghost" (click)="next()" [disabled]="offset+limit>=(vm?.total || 0)">Siguiente</button>
+  </div>
+</div>
+
+<app-confirm-modal [open]="showConfirm"
+  [title]="purgeAll ? (confirmStage === 0 ? 'Vaciar papelera' : 'Confirmar vaciado') : (confirmHard ? 'Eliminar permanentemente' : 'Restaurar usuario')"
+  [message]="
+    purgeAll
+      ? (confirmStage === 0
+          ? 'Se eliminarán permanentemente todos los usuarios en la papelera. Confirma nuevamente para continuar.'
+          : 'Esta acción es irreversible y eliminará definitivamente todos los usuarios en la papelera. ¿Deseas continuar?')
+      : (confirmHard
+          ? 'Esta acción eliminará el usuario de forma definitiva y no se puede deshacer. ¿Deseas continuar?'
+          : 'Se restaurará el usuario y volverá a estar disponible. ¿Deseas continuar?')
+  "
+  [confirmText]="purgeAll ? (confirmStage === 0 ? 'Continuar' : 'Eliminar definitivamente') : (confirmHard ? 'Eliminar' : 'Restaurar')"
+  cancelText="Cancelar" (confirm)="onConfirm()" (cancel)="showConfirm=false">
+</app-confirm-modal>

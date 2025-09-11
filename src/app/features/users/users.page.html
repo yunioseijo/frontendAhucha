@@ -86,6 +86,6 @@
   </div>
 </div>
 <app-confirm-modal [open]="showConfirm" title="Eliminar usuario"
-  message="Esta acción no se puede deshacer. ¿Deseas eliminar al usuario?" confirmText="Eliminar" cancelText="Cancelar"
+  message="Se marcará como eliminado y podrás restaurarlo luego. ¿Deseas continuar?" confirmText="Eliminar" cancelText="Cancelar"
   (confirm)="onConfirmDelete()" (cancel)="showConfirm=false">
 </app-confirm-modal>
