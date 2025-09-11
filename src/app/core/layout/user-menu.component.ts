@@ -9,7 +9,7 @@ import { AuthService } from '@auth/services/auth.service';
     RouterLink,
   ],
   templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.css',
+  styleUrls: ['./user-menu.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent {
