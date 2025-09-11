@@ -7,6 +7,7 @@ import { ThemeService } from '@core/layout/theme.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './settings.page.html',
+  styleUrls: ['./settings.page.css'],
 })
 export class SettingsPage {
   private theme = inject(ThemeService);

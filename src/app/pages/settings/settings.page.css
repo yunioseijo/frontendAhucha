@@ -1,0 +1,26 @@
+/* Theme buttons: make hover reflect intent */
+.theme-btn { min-width: 120px; justify-content: center; }
+.theme-btn .material-symbols-outlined { transition: color .15s ease; }
+
+/* Light: soft light hover for ghost state */
+.theme-btn--light.btn-ghost:hover {
+  background: #f8f9fa;
+  border-color: #e5e7eb;
+  color: #111827;
+}
+.theme-btn--light:hover .material-symbols-outlined { color: #f59e0b; /* amber-600 */ }
+
+/* Dark: dark surface hover for ghost state */
+.theme-btn--dark.btn-ghost:hover {
+  background: #111827; /* gray-900 */
+  border-color: #111827;
+  color: #ffffff;
+}
+.theme-btn--dark:hover .material-symbols-outlined { color: #f59e0b; /* amber-600 */ }
+
+/* System: neutral hover */
+.theme-btn--system.btn-ghost:hover {
+  background: #e5e7eb; /* gray-200 */
+  border-color: #e5e7eb;
+  color: #111827;
+}
