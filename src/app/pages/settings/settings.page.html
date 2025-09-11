@@ -4,9 +4,18 @@
     <h3 style="margin-top:0">Tema</h3>
     <p class="form-help" style="margin-top:0">Elige cómo se ve la aplicación.</p>
     <div class="flex" style="gap:8px; flex-wrap: wrap;">
-      <button class="btn" [ngClass]="mode() === 'light' ? 'btn-secondary' : 'btn'" (click)="setMode('light')">Claro</button>
-      <button class="btn" [ngClass]="mode() === 'dark' ? 'btn-secondary' : 'btn'" (click)="setMode('dark')">Oscuro</button>
-      <button class="btn" [ngClass]="mode() === 'system' ? 'btn-secondary' : 'btn'" (click)="setMode('system')">Sistema</button>
+      <button [ngClass]="mode() === 'light' ? 'btn-primary' : 'btn-ghost'" (click)="setMode('light')">
+        <span class="material-symbols-outlined" aria-hidden="true">light_mode</span>
+        <span>Claro</span>
+      </button>
+      <button [ngClass]="mode() === 'dark' ? 'btn-primary' : 'btn-ghost'" (click)="setMode('dark')">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+        <span>Oscuro</span>
+      </button>
+      <button [ngClass]="mode() === 'system' ? 'btn-primary' : 'btn-ghost'" (click)="setMode('system')">
+        <span class="material-symbols-outlined" aria-hidden="true">brightness_auto</span>
+        <span>Sistema</span>
+      </button>
     </div>
   </div>
 </div>
