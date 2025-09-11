@@ -11,6 +11,43 @@
   --complementary-hover: rgb(253.6304347826, 67.3695652174, 67.3695652174);
   --complementary-active: rgb(253.2608695652, 16.7391304348, 16.7391304348);
   --base-dark-hover: rgb(55.7432432432, 62.5, 69.2567567568);
+
+  /* Themed surfaces (defaults to light) */
+  --surface: #ffffff;
+  --on-surface: #212529;
+  --on-surface-muted: rgba(33, 37, 41, 0.6);
+  --surface-border: #e5e7eb;
+}
+
+/* Light/Dark theme tokens (toggled by ThemeService: adds light-theme/dark-theme on <html>) */
+.light-theme {
+  --surface: #ffffff;
+  --on-surface: #212529;
+  --on-surface-muted: rgba(33, 37, 41, 0.6);
+  --surface-border: #e5e7eb;
+
+  /* Sync neutral tokens */
+  --neutral-bg: var(--surface);
+  --neutral-fg: var(--on-surface);
+  --neutral-border: var(--surface-border);
+  --neutral-muted: #6b7280; /* gray-500 */
+  --neutral-accent: var(--brand);
+  --neutral-accent-contrast: #111827; /* gray-900 */
+}
+
+.dark-theme {
+  --surface: #1f2937;           /* gray-800 */
+  --on-surface: #f3f4f6;        /* gray-100 */
+  --on-surface-muted: rgba(243, 244, 246, 0.65);
+  --surface-border: #374151;     /* gray-700 */
+
+  /* Sync neutral tokens */
+  --neutral-bg: var(--surface);
+  --neutral-fg: var(--on-surface);
+  --neutral-border: var(--surface-border);
+  --neutral-muted: #9ca3af; /* gray-400 */
+  --neutral-accent: var(--brand);
+  --neutral-accent-contrast: #111827; /* stays dark for brand buttons */
 }
 
 /* Base reset + typography */
@@ -287,9 +324,9 @@ label {
 
 /* Cards */
 .card {
-  background: #fff;
-  color: #212529;
-  border: 1px solid #76BAFE;
+  background: var(--surface);
+  color: var(--on-surface);
+  border: 1px solid var(--surface-border);
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   padding: 1rem;
@@ -298,12 +335,11 @@ label {
 .card__title {
   font-weight: 700;
   margin-bottom: 0.25rem;
-  /* Evitar bajo contraste en tarjetas con fondo blanco */
-  color: #212529;
+  color: var(--on-surface);
 }
 
 .card__subtitle {
-  color: rgba(33, 37, 41, 0.6);
+  color: var(--on-surface-muted);
   margin-bottom: 0.75rem;
 }
 
