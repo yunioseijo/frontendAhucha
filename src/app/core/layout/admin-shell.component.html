@@ -4,9 +4,11 @@
       <img src="/logo.png" alt="Ahucha" />
       <span class="sr-only">Ahucha Admin</span>
     </a>
-    <nav aria-label="Administración">
-      <a class="sidebar__link" routerLink="/admin/users" routerLinkActive="active">Usuarios</a>
-      <a class="sidebar__link" routerLink="/admin/users/trash" routerLinkActive="active">Papelera</a>
+    <nav aria-label="Administración" class="flex flex-col gap-3">
+      <a class="sidebar__link" routerLink="/admin/users" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Usuarios</a>
+      <a class="sidebar__link" routerLink="/admin/users/trash" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Papelera</a>
     </nav>
   </aside>
   <div class="main">
@@ -23,11 +25,11 @@
             }
             }
           </ngm-dev-block-ui-breadcrumbs>
+        </div>
+        <div class="spacer"></div>
+        <app-user-menu></app-user-menu>
       </div>
-      <div class="spacer"></div>
-      <app-user-menu></app-user-menu>
-    </div>
-  </header>
+    </header>
     <section class="content">
       <router-outlet />
     </section>
