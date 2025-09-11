@@ -2,13 +2,24 @@
 .theme-btn { min-width: 120px; justify-content: center; }
 .theme-btn .material-symbols-outlined { transition: color .15s ease; }
 
-/* Light: soft light hover for ghost state */
+/* Light: mint hover and active look */
 .theme-btn--light.btn-ghost:hover {
-  background: #f8f9fa;
-  border-color: #e5e7eb;
+  background: var(--brand-analog-2); /* mint */
+  border-color: var(--brand-analog-2);
   color: #111827;
 }
 .theme-btn--light:hover .material-symbols-outlined { color: #f59e0b; /* amber-600 */ }
+
+.theme-btn--light.btn-primary,
+.theme-btn--light.btn-primary:hover,
+.theme-btn--light.btn-primary:active {
+  background: var(--brand-analog-2) !important;
+  border-color: var(--brand-analog-2) !important;
+  color: #111827 !important;
+}
+.theme-btn--light.btn-primary .material-symbols-outlined {
+  color: #f59e0b; /* amber-600 */
+}
 
 /* Dark: dark surface hover for ghost state */
 .theme-btn--dark.btn-ghost:hover {
@@ -17,6 +28,18 @@
   color: #ffffff;
 }
 .theme-btn--dark:hover .material-symbols-outlined { color: #f59e0b; /* amber-600 */ }
+
+/* Dark: keep hover look when selected (btn-primary applied) */
+.theme-btn--dark.btn-primary,
+.theme-btn--dark.btn-primary:hover,
+.theme-btn--dark.btn-primary:active {
+  background: #111827 !important;
+  border-color: #111827 !important;
+  color: #ffffff !important;
+}
+.theme-btn--dark.btn-primary .material-symbols-outlined {
+  color: #f59e0b; /* amber-600 */
+}
 
 /* System: neutral hover */
 .theme-btn--system.btn-ghost:hover {
