@@ -12,7 +12,7 @@ import { ConfirmModalComponent } from '@shared/ui/confirm-modal.component';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, ConfirmModalComponent],
   templateUrl: './users-trash.page.html',
-  styleUrls: ['./users-trash.page.css']
+  styleUrls: ['./users-trash.page.css'],
 })
 export class UsersTrashPage implements OnInit {
   private api = inject(UsersService);
@@ -33,7 +33,10 @@ export class UsersTrashPage implements OnInit {
   vm$ = combineLatest([this.limit$, this.offset$, this.q$, this.role$]).pipe(
     switchMap(([limit, offset, q, role]) =>
       this.api
-        .listDeleted(limit, offset, { q: q?.trim() || undefined, role: (role || undefined) as any })
+        .listDeleted(limit, offset, {
+          q: q?.trim() || undefined,
+          role: (role || undefined) as any,
+        })
         .pipe(
           map((res) => ({
             total: res.total,
@@ -63,33 +66,91 @@ export class UsersTrashPage implements OnInit {
     });
   }
 
-  load() { this.offset$.next(this.offset); }
+  load() {
+    this.offset$.next(this.offset);
+  }
 
-  next() { this.offset = Math.min(this.offset + this.limit, Math.max(0, this.total - this.limit)); this.load(); }
-  prev() { this.offset = Math.max(0, this.offset - this.limit); this.load(); }
-  onFilters() { this.offset = 0; this.load(); }
-  onLimitChange() { this.offset = 0; this.limit$.next(this.limit); this.load(); }
+  next() {
+    this.offset = Math.min(
+      this.offset + this.limit,
+      Math.max(0, this.total - this.limit)
+    );
+    this.load();
+  }
+  prev() {
+    this.offset = Math.max(0, this.offset - this.limit);
+    this.load();
+  }
+  onFilters() {
+    this.offset = 0;
+    this.load();
+  }
+  onLimitChange() {
+    this.offset = 0;
+    this.limit$.next(this.limit);
+    this.load();
+  }
   // reflect text/role changes into streams
-  set qModel(val: string) { this.q = val; this.q$.next(val); this.onFilters(); }
-  set roleModel(val: '' | 'admin' | 'super-user' | 'user') { this.role = val; this.role$.next(val); this.onFilters(); }
+  set qModel(val: string) {
+    this.q = val;
+    this.q$.next(val);
+    this.onFilters();
+  }
+  set roleModel(val: '' | 'admin' | 'super-user' | 'user') {
+    this.role = val;
+    this.role$.next(val);
+    this.onFilters();
+  }
 
-  askRestore(id: string) { this.pendingId = id; this.confirmHard = false; this.purgeAll = false; this.confirmStage = 0; this.showConfirm = true; }
-  askHardDelete(id: string) { this.pendingId = id; this.confirmHard = true; this.purgeAll = false; this.confirmStage = 0; this.showConfirm = true; }
-  askPurgeAll() { this.pendingId = null; this.purgeAll = true; this.confirmHard = true; this.confirmStage = 0; this.showConfirm = true; }
+  askRestore(id: string) {
+    this.pendingId = id;
+    this.confirmHard = false;
+    this.purgeAll = false;
+    this.confirmStage = 0;
+    this.showConfirm = true;
+  }
+  askHardDelete(id: string) {
+    this.pendingId = id;
+    this.confirmHard = true;
+    this.purgeAll = false;
+    this.confirmStage = 0;
+    this.showConfirm = true;
+  }
+  askPurgeAll() {
+    this.pendingId = null;
+    this.purgeAll = true;
+    this.confirmHard = true;
+    this.confirmStage = 0;
+    this.showConfirm = true;
+  }
 
   onConfirm() {
     if (this.purgeAll) {
-      if (this.confirmStage === 0) { this.confirmStage = 1; this.showConfirm = true; return; }
+      if (this.confirmStage === 0) {
+        this.confirmStage = 1;
+        this.showConfirm = true;
+        return;
+      }
       const ids = this.list.map((u) => u.id);
       this.showConfirm = false;
-      forkJoin(ids.map((id) => this.api.purge(id))).subscribe({ next: () => this.load() });
+      forkJoin(ids.map((id) => this.api.purge(id))).subscribe({
+        next: () => this.load(),
+      });
       return;
     }
     if (!this.pendingId) return;
     const id = this.pendingId;
     this.pendingId = null;
     this.showConfirm = false;
-    if (this.confirmHard) this.api.purge(id).subscribe({ next: () => this.load() });
+    if (this.confirmHard)
+      this.api.purge(id).subscribe({ next: () => this.load() });
     else this.api.restore(id).subscribe({ next: () => this.load() });
+  }
+
+  onCancel() {
+    this.showConfirm = false;
+    this.confirmStage = 0;
+    this.purgeAll = false;
+    this.pendingId = null;
   }
 }

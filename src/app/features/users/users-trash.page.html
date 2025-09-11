@@ -24,7 +24,7 @@
     </div>
     <div style="display:flex; justify-content:flex-end;">
       @let vm = (vm$ | async);
-      <button class="btn-secondary" (click)="askPurgeAll()" [disabled]="!(vm?.total)">Vaciar papelera</button>
+      <button type="button" class="btn-secondary" (click)="askPurgeAll()" [disabled]="total === 0">Vaciar papelera</button>
     </div>
   </div>
   <table>
@@ -71,5 +71,5 @@
           : 'Se restaurará el usuario y volverá a estar disponible. ¿Deseas continuar?')
   "
   [confirmText]="purgeAll ? (confirmStage === 0 ? 'Continuar' : 'Eliminar definitivamente') : (confirmHard ? 'Eliminar' : 'Restaurar')"
-  cancelText="Cancelar" (confirm)="onConfirm()" (cancel)="showConfirm=false">
+  cancelText="Cancelar" (confirm)="onConfirm()" (cancel)="onCancel()">
 </app-confirm-modal>
