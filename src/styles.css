@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Custom utilities that mirror project design tokens */
+@layer utilities {
+  .from-primary {
+    --tw-gradient-from: var(--brand);
+    --tw-gradient-to: rgb(255 255 255 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+  }
+  .to-primary-700 {
+    --tw-gradient-to: var(--brand-active);
+  }
+  .text-muted {
+    color: var(--base-dark);
+  }
+  .glass {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}

@@ -15,6 +15,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { importProvidersFrom } from '@angular/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,5 +31,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor, errorInterceptor])),
     provideAnimations(),
+    importProvidersFrom(MatDialogModule),
   ],
 };

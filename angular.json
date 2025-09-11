@@ -27,10 +27,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "src/tokens.scss",
-              "src/assets/styles/ngm-dev-blocks-styles.scss",
-              "src/styles.design.scss"
+              "src/global.css",
+              "src/styles.css"
             ]
           },
           "configurations": {
@@ -89,8 +87,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "src/styles.design.scss"
+              "src/global.css",
+              "src/styles.css"
             ]
           }
         }
