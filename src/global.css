@@ -240,12 +240,12 @@ label {
 
 .btn--ghost, .btn-ghost {
   background: transparent;
-  color: #212529;
+  color: var(--on-surface);
   border-color: rgba(118, 254, 254, 0.35);
 }
 
 .btn--ghost:hover, .btn-ghost:hover {
-  color: #212529;
+  color: var(--on-surface);
   border-color: #76FEBA;
   background: rgba(118, 254, 186, 0.08);
 }
