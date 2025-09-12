@@ -1,3 +1,4 @@
+// ...existing code...
 import {
   Component,
   ChangeDetectionStrategy,
@@ -52,7 +53,11 @@ export class AdminShellComponent implements OnInit, OnDestroy {
   // breadcrumb signal (Angular best practice)
   breadcrumbs = signal<{ label: string; url: string }[]>([]);
 
+  // Signal para el estado del sidebar (contraído)
+  sidebarCollapsed = signal(window.innerWidth <= 900);
+
   ngOnInit() {
+    window.addEventListener('resize', this.onResize);
     this.sub = this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => this.buildBreadcrumbs());
@@ -61,8 +66,13 @@ export class AdminShellComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResize);
     this.sub?.unsubscribe();
   }
+
+  onResize = () => {
+    this.sidebarCollapsed.set(window.innerWidth <= 900);
+  };
 
   logout() {
     this.auth.logoutAll().subscribe({

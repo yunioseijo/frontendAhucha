@@ -1,13 +1,39 @@
+.hide-text {
+  display: none !important;
+}
 /* Admin shell layout using design tokens */
-.admin-shell { display:grid; grid-template-columns: 240px 1fr; height: 100vh; }
-.main { display:flex; flex-direction:column; min-width:0; }
-.content { padding: 16px; overflow:auto; height: calc(100vh - 64px); }
 
+.admin-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  height: 100vh;
+  transition: grid-template-columns 0.2s;
+}
+.admin-shell .sidebar.collapsed {
+  width: 56px;
+  min-width: 56px;
+  padding: 8px 4px;
+  overflow-x: hidden;
+}
+.admin-shell .sidebar__toggle {
+  background: none;
+  border: none;
+  color: var(--electric-blue);
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  cursor: pointer;
+  align-self: flex-end;
+}
 .sidebar {
   background: var(--bg-base);
   color: var(--text-on-dark);
-  padding: 16px; display:flex; flex-direction:column; gap: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   border-right: 1px solid var(--border-on-dark);
+  min-width: 240px;
+  transition: min-width 0.2s, width 0.2s, padding 0.2s;
 }
 .sidebar__link {
   color: var(--electric-blue);
@@ -15,10 +41,44 @@
   text-decoration: none;
   padding: 8px 10px;
   border-radius: var(--radius-md);
-  display:block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, color 0.2s;
 }
-.sidebar__link:hover { color: var(--electric-blue); background: rgba(118,254,254,0.08); }
-.sidebar__link.active { color: var(--base-dark); background: var(--brand); }
+.sidebar__icon {
+  font-size: 1.3em;
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+}
+.sidebar__text {
+  transition: opacity 0.2s;
+}
+.sidebar__link:hover {
+  color: var(--electric-blue);
+  background: rgba(118, 254, 254, 0.12);
+}
+.sidebar__link.active {
+  color: var(--base-dark);
+  background: var(--brand);
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.spacer {
+  flex: 1 1 auto;
+}
 
-.breadcrumbs { display:flex; align-items:center; gap: 6px; font-weight: 500; }
-.spacer { flex: 1 1 auto; }
+@media (max-width: 900px) {
+  .admin-shell {
+    grid-template-columns: 56px 1fr;
+  }
+  .sidebar {
+    min-width: 56px;
+    padding: 8px 4px;
+  }
+}

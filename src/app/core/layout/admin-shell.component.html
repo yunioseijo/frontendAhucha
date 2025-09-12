@@ -1,14 +1,28 @@
 <div class="admin-shell">
-  <aside class="sidebar">
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed()">
+    <button type="button" class="sidebar__toggle" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+      <span *ngIf="!sidebarCollapsed()">⮜</span>
+      <span *ngIf="sidebarCollapsed()">⮞</span>
+    </button>
     <a class="navbar__brand" routerLink="/">
       <img src="/logo.png" alt="Ahucha" />
       <span class="sr-only">Ahucha Admin</span>
     </a>
     <nav aria-label="Administración" class="flex flex-col gap-3">
       <a class="sidebar__link" routerLink="/admin/users" routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">Usuarios</a>
+        [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">account_circle</span>
+        @if (!sidebarCollapsed()) {
+        <span class="sidebar__text">Usuarios</span>
+        }
+      </a>
       <a class="sidebar__link" routerLink="/admin/users/trash" routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">Papelera</a>
+        [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined sidebar__icon" aria-hidden="true">delete</span>
+        @if (!sidebarCollapsed()) {
+        <span class="sidebar__text">Papelera</span>
+        }
+      </a>
     </nav>
   </aside>
   <div class="main">
