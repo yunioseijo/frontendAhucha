@@ -14,7 +14,11 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./features/admin-dashboard/admin-dashboard.routes'),
-    canMatch: [isAdminGuard]
+    canMatch: [
+      // Require authentication first to avoid loading admin children while logged out
+      () => import('@auth/guards/authenticated.guard').then(m => m.authenticatedGuard),
+      isAdminGuard,
+    ]
   },
   {
     path: '',

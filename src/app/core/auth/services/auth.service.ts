@@ -46,6 +46,7 @@ export class AuthService {
   clearTokens() {
     this.accessTokenSig.set(null);
     this.refreshTokenSig.set(null);
+    this.currentUserSig.set(null);
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }

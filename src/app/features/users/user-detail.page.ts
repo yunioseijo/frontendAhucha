@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '@shared/api/users.service';
+import { AuthService } from '@auth/services/auth.service';
+import { Router } from '@angular/router';
  
 
 @Component({
@@ -22,6 +24,8 @@ export class UserDetailPage implements OnInit {
   private users = inject(UsersService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   id!: string;
   form: any;
@@ -52,6 +56,17 @@ export class UserDetailPage implements OnInit {
     this.users.updateRoles(this.id, { roles: Array.from(next) as any }).subscribe(u => { this.roles = u.roles; this.cdr.detectChanges(); });
   }
   loadAudit() { this.users.audit(this.id, 10, 0).subscribe(a => { this.audits = a.data; this.cdr.detectChanges(); }); }
-  remove() { this.users.remove(this.id).subscribe(); }
+  remove() {
+    const deletingSelf = this.auth.user()?.id === this.id;
+    this.users.remove(this.id).subscribe({
+      next: () => {
+        if (deletingSelf) {
+          // If the current user removed themselves, end the session and go to login
+          this.auth.clearTokens();
+          this.router.navigate(['/auth/login']);
+        }
+      }
+    });
+  }
   restore() { this.users.restore(this.id).subscribe(); }
 }

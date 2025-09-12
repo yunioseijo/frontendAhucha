@@ -5,6 +5,8 @@ import { AuthService } from '../services/auth.service';
 export const notAuthenticatedGuard: CanMatchFn = () => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  if (!auth.isAuthenticated()) return true;
+  // Permitir acceso a /auth cuando NO hay token o cuando aún no hay usuario resuelto.
+  // Así evitamos bloquear el login por tokens inválidos en localStorage.
+  if (!auth.accessToken || !auth.user()) return true;
   return router.parseUrl('/');
 };

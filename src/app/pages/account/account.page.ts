@@ -54,17 +54,30 @@ export class AccountPage implements OnInit {
   });
 
   ngOnInit() {
+    // If there is no token at all, leave immediately
+    if (!this.auth.accessToken) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
     if (!this.auth.user()) {
-      this.auth.loadMe().subscribe((u) => this.profileForm.patchValue({
-        fullName: u.fullName ?? '',
-        username: u.username ?? '',
-        avatarUrl: u.avatarUrl ?? '',
-        phone: u.phone ?? '',
-        bio: u.bio ?? '',
-        countryCode: u.countryCode ?? '',
-        locale: u.locale ?? '',
-        timezone: u.timezone ?? ''
-      }));
+      this.auth.loadMe().subscribe({
+        next: (u) => this.profileForm.patchValue({
+          fullName: u.fullName ?? '',
+          username: u.username ?? '',
+          avatarUrl: u.avatarUrl ?? '',
+          phone: u.phone ?? '',
+          bio: u.bio ?? '',
+          countryCode: u.countryCode ?? '',
+          locale: u.locale ?? '',
+          timezone: u.timezone ?? ''
+        }),
+        error: () => {
+          // If we cannot load the current user (e.g., deleted account), log out and redirect
+          this.auth.clearTokens();
+          this.router.navigate(['/auth/login']);
+        }
+      });
     } else {
       const u = this.auth.user()!;
       this.profileForm.patchValue({

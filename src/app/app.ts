@@ -23,9 +23,7 @@ export class App implements OnInit {
   isAdmin = false;
 
   ngOnInit(): void {
-    if (this.auth.accessToken && !this.auth.user()) {
-      this.auth.loadMe().subscribe({ error: () => this.auth.clearTokens() });
-    }
+    // Carga de usuario delegada al authGuard; evitamos duplicar llamadas y 401 innecesarios aquí
     // Determine if current route is under /admin to toggle global navbar
     const update = () => (this.isAdmin = this.router.url.startsWith('/admin'));
     update();
