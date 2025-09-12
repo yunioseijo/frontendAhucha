@@ -8,17 +8,8 @@ import { AuthService } from '@auth/services/auth.service';
   selector: 'app-reset',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <h2>Definir nueva contraseña</h2>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <label>Token <input formControlName="token" /></label>
-      <label>Nueva contraseña <input type="password" formControlName="newPassword" /></label>
-      <button type="submit" [disabled]="form.invalid || loading">Guardar</button>
-    </form>
-    @if (ok) {
-      <p style="color:green">Contraseña actualizada. Ya puedes iniciar sesión.</p>
-    }
-  `
+  templateUrl: './reset.page.html',
+  styleUrls: ['./reset.page.css']
 })
 export class ResetPage {
   private fb = inject(FormBuilder);
@@ -29,10 +20,20 @@ export class ResetPage {
   loading = false;
   ok = false;
 
-  form = this.fb.nonNullable.group({
-    token: ['', [Validators.required]],
-    newPassword: ['', [Validators.required, Validators.minLength(6)]]
-  });
+  form = this.fb.nonNullable.group(
+    {
+      token: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+    },
+    {
+      validators: (group) => {
+        const p = group.get('newPassword')?.value ?? '';
+        const c = group.get('confirmPassword')?.value ?? '';
+        return p && c && p !== c ? { passwordMismatch: true } : null;
+      },
+    }
+  );
 
   constructor() {
     const t = this.route.snapshot.queryParamMap.get('token');
@@ -42,7 +43,11 @@ export class ResetPage {
   onSubmit() {
     if (this.form.invalid) return;
     this.loading = true;
-    this.auth.resetPassword(this.form.getRawValue()).subscribe({
+    const payload = {
+      token: this.form.controls.token.value,
+      newPassword: this.form.controls.newPassword.value,
+    } as const;
+    this.auth.resetPassword(payload).subscribe({
       next: () => { this.ok = true; this.loading = false; setTimeout(() => this.router.navigate(['/auth/login']), 1000); },
       error: () => { this.loading = false; }
     });

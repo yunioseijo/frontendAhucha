@@ -107,8 +107,8 @@ export class AuthService {
     return this.http.post(`${API.baseUrl}/auth/email/verify`, payload);
   }
 
-  requestPasswordReset(payload: RequestPasswordResetDto): Observable<unknown> {
-    return this.http.post(`${API.baseUrl}/auth/password/request-reset`, payload);
+  requestPasswordReset(payload: RequestPasswordResetDto): Observable<OkResponseDto> {
+    return this.http.post<OkResponseDto>(`${API.baseUrl}/auth/password/request-reset`, payload);
   }
 
   resetPassword(payload: ResetPasswordDto): Observable<unknown> {

@@ -1,0 +1,12 @@
+:host { display: block; }
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-card { width: 100%; max-width: 420px; margin: 24px; }
+.auth-form .form-field { width: 100%; display: block; margin-bottom: 12px; }
+.actions { margin-top: 8px; display: flex; align-items: center; justify-content: flex-start; gap: 12px; }
+.status { margin-top: 10px; display: flex; align-items: center; gap: 8px; color: var(--on-surface); }
+.status--success { color: #10b981; }
+.status--error { color: #ef4444; }

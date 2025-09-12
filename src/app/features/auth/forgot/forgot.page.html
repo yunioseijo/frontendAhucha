@@ -1,0 +1,29 @@
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card__title">Restablecer contraseña</div>
+    <div class="card__subtitle">Te enviaremos un enlace por correo</div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form" aria-live="polite">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" autocomplete="email" />
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" [disabled]="form.invalid || loading">
+          <span class="material-symbols-outlined" aria-hidden="true">send</span>
+          <span>Enviar enlace</span>
+        </button>
+      </div>
+
+      @if (status !== 'idle') {
+      <div class="status" [class.status--success]="status==='success'" [class.status--error]="status==='error'">
+        <span class="material-symbols-outlined" aria-hidden="true">
+          {{ status==='pending' ? 'hourglass_top' : (status==='success' ? 'check_circle' : 'error') }}
+        </span>
+        <span>{{ message }}</span>
+      </div>
+      }
+    </form>
+  </div>
+</div>

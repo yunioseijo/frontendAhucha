@@ -1,0 +1,45 @@
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <div class="card__title">Definir nueva contraseña</div>
+    <div class="card__subtitle">Introduce tu nueva contraseña para tu cuenta</div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+      @if (!form.controls.token.value) {
+      <div class="form-error" role="alert">No se encontró un token válido en el enlace. Abre el enlace desde tu correo.</div>
+      }
+
+      <div class="form-field">
+        <label for="newPassword">Nueva contraseña</label>
+        <input id="newPassword" type="password" formControlName="newPassword" autocomplete="new-password" />
+        @if (form.controls.newPassword.hasError('required')) {
+        <div class="form-error">La contraseña es requerida</div>
+        }
+        @if (form.controls.newPassword.hasError('minlength')) {
+        <div class="form-error">Mínimo 6 caracteres</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="confirmPassword">Confirmar contraseña</label>
+        <input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+        @if (form.controls.confirmPassword.hasError('required')) {
+        <div class="form-error">Confirma tu contraseña</div>
+        }
+        @if (form.hasError('passwordMismatch')) {
+        <div class="form-error">Las contraseñas no coinciden</div>
+        }
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" [disabled]="form.invalid || loading">
+          <span class="material-symbols-outlined" aria-hidden="true">save</span>
+          <span>Guardar</span>
+        </button>
+      </div>
+
+      @if (ok) {
+      <p class="hint-ok">Contraseña actualizada. Ya puedes iniciar sesión.</p>
+      }
+    </form>
+  </div>
+</div>

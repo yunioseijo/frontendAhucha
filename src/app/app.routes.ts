@@ -3,6 +3,9 @@ import { notAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 import { isAdminGuard } from '@auth/guards/is-admin.guard';
 
 export const routes: Routes = [
+  // Public aliases so email links like /reset-password?token=... work
+  { path: 'reset-password', redirectTo: 'auth/reset-password' },
+  { path: 'password/reset', redirectTo: 'auth/reset-password' },
   {
     path: 'auth',
     loadChildren: () => import('./features/auth/auth.routes'),
