@@ -24,7 +24,8 @@
     </div>
     <div style="display:flex; justify-content:flex-end;">
       @let vm = (vm$ | async);
-      <button type="button" class="btn-secondary" (click)="askPurgeAll()" [disabled]="total === 0">Vaciar papelera</button>
+      <button type="button" class="btn-secondary" (click)="askPurgeAll()" [disabled]="total === 0">Vaciar
+        papelera</button>
     </div>
   </div>
   <table>
@@ -42,7 +43,7 @@
         <td>{{u.fullName}}</td>
         <td>{{u.email}}</td>
         <td>{{ u.deletedAt ? (u.deletedAt | date:'medium') : '—' }}</td>
-        <td class="actions-cell">
+        <td class="actions-cell flex flex-wrap">
           <button class="icon-btn edit" type="button" (click)="askRestore(u.id)">Restaurar</button>
           <button class="icon-btn delete" type="button" (click)="askHardDelete(u.id)">Eliminar permanente</button>
         </td>
