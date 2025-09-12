@@ -424,3 +424,9 @@ mat-card, .mat-mdc-card {
   color: var(--neutral-fg);
   border-radius: 12px;
 }
+
+/* Tables (dark theme hover) */
+.dark-theme .card tbody tr:hover,
+.dark-theme table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
