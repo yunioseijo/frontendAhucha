@@ -1,8 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+  NavigationEnd,
+} from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
 import { ThemeService } from '@core/layout/theme.service';
 import { UserMenuComponent } from '@core/layout/user-menu.component';
+import { HeaderComponent } from '@shared/ui/header.component';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +18,7 @@ import { UserMenuComponent } from '@core/layout/user-menu.component';
     RouterLink,
     RouterLinkActive,
     UserMenuComponent,
+    HeaderComponent,
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],

@@ -26,6 +26,7 @@ import {
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UserMenuComponent } from '@core/layout/user-menu.component';
+import { HeaderComponent } from '@shared/ui/header.component';
 
 @Component({
   selector: 'app-admin-shell',
@@ -39,6 +40,7 @@ import { UserMenuComponent } from '@core/layout/user-menu.component';
     BreadcrumbSeparatorDirective,
     MatButtonModule,
     UserMenuComponent,
+    HeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './admin-shell.component.html',

@@ -1,13 +1,11 @@
+<app-header [isAdmin]="true" [auth]="auth"></app-header>
 <div class="admin-shell">
   <aside class="sidebar" [class.collapsed]="sidebarCollapsed()">
     <button type="button" class="sidebar__toggle" (click)="toggleSidebar()" aria-label="Toggle sidebar">
       <span *ngIf="!sidebarCollapsed()">⮜</span>
       <span *ngIf="sidebarCollapsed()">⮞</span>
     </button>
-    <a class="navbar__brand" routerLink="/">
-      <img src="/logo.png" alt="Ahucha" />
-      <span class="sr-only">Ahucha Admin</span>
-    </a>
+
     <nav aria-label="Administración" class="flex flex-col gap-3">
       <a class="sidebar__link" routerLink="/admin/users" routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">
@@ -25,25 +23,8 @@
       </a>
     </nav>
   </aside>
-  <div class="main">
-    <header class="topbar navbar">
-      <div class="container navbar__inner" style="padding-left:0; padding-right:16px;">
-        <div class="breadcrumbs">
-          <ngm-dev-block-ui-breadcrumbs aria-label="Breadcrumb">
-            <a *ngmDevBlockUiBreadcrumbItem routerLink="/admin" class="navbar__link">Admin</a>
-            @for (bc of breadcrumbs(); track bc.url; let last = $last) {
-            @if (!last) {
-            <a *ngmDevBlockUiBreadcrumbItem [routerLink]="bc.url" class="navbar__link">{{ bc.label }}</a>
-            } @else {
-            <span *ngmDevBlockUiBreadcrumbItem aria-current="page" class="navbar__link active">{{ bc.label }}</span>
-            }
-            }
-          </ngm-dev-block-ui-breadcrumbs>
-        </div>
-        <div class="spacer"></div>
-        <app-user-menu></app-user-menu>
-      </div>
-    </header>
+  <div class="main p-4">
+
     <section class="content">
       <router-outlet />
     </section>

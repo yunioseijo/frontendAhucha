@@ -1,20 +1,5 @@
 @if (!isAdmin) {
-  <header class="navbar">
-    <div class="container navbar__inner">
-      <a class="navbar__brand" routerLink="/" aria-label="Inicio">
-        <img src="/logo.png" alt="Ahucha" />
-        <span class="sr-only">Ahucha</span>
-      </a>
-
-      <nav class="navbar__nav" aria-label="Principal">
-        @if (auth.isAuthenticated()) {
-          <a class="navbar__link" routerLink="/account" routerLinkActive="active">Mi cuenta</a>
-          <a class="navbar__link" routerLink="/admin/users" routerLinkActive="active">Admin</a>
-          <app-user-menu></app-user-menu>
-        }
-      </nav>
-    </div>
-  </header>
+<app-header [isAdmin]="isAdmin" [auth]="auth"></app-header>
 }
 
 <main>
