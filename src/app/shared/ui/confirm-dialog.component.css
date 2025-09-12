@@ -1,0 +1,31 @@
+:host { display:block; color: var(--on-surface); }
+.title-row { display:flex; align-items:center; gap:12px; }
+.title-text { color: var(--on-surface); font-weight: 600; }
+.icon-badge { width:40px; height:40px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; }
+/* Soft semantic badges bound to palette tokens */
+.icon-badge.danger { background: color-mix(in srgb, var(--complementary) 15%, transparent); color: var(--complementary); }
+.icon-badge.warning { background: rgba(234, 179, 8, 0.15); color: #eab308; }
+.icon-badge.info { background: color-mix(in srgb, var(--brand) 15%, transparent); color: var(--brand); }
+.content { margin-top: 8px; color: var(--on-surface-muted); }
+.actions { display:flex; gap:10px; }
+
+/* Local button tokens to ensure correct dark/light behavior inside dialog */
+.actions .btn-primary {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  padding: 0.625rem 1rem; border-radius: 12px; border:1px solid transparent;
+  background: var(--neutral-accent); color: var(--neutral-accent-contrast);
+}
+.actions .btn-primary:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+
+.actions .btn-ghost {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  padding: 0.625rem 1rem; border-radius: 12px; border:1px solid rgba(118,254,254,.35);
+  background: transparent; color: var(--on-surface);
+}
+.actions .btn-ghost:hover { border-color: #76FEBA; background: rgba(118,254,186,.08); }
+
+.actions .btn-secondary {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  padding: 0.625rem 1rem; border-radius: 12px; border:1px solid transparent;
+  background: #FE7676; color: var(--base-dark);
+}

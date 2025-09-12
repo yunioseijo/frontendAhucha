@@ -50,6 +50,35 @@
   --neutral-accent-contrast: #111827; /* stays dark for brand buttons */
 }
 
+/* Ensure Angular CDK overlays (dialogs/menus) inherit theme tokens */
+html.dark-theme .cdk-overlay-container {
+  --surface: #1f2937;           /* gray-800 */
+  --on-surface: #f3f4f6;        /* gray-100 */
+  --on-surface-muted: rgba(243, 244, 246, 0.65);
+  --surface-border: #374151;     /* gray-700 */
+
+  --neutral-bg: var(--surface);
+  --neutral-fg: var(--on-surface);
+  --neutral-border: var(--surface-border);
+  --neutral-muted: #9ca3af; /* gray-400 */
+  --neutral-accent: var(--brand);
+  --neutral-accent-contrast: #111827;
+}
+
+html.light-theme .cdk-overlay-container {
+  --surface: #ffffff;
+  --on-surface: #212529;
+  --on-surface-muted: rgba(33, 37, 41, 0.6);
+  --surface-border: #e5e7eb;
+
+  --neutral-bg: var(--surface);
+  --neutral-fg: var(--on-surface);
+  --neutral-border: var(--surface-border);
+  --neutral-muted: #6b7280; /* gray-500 */
+  --neutral-accent: var(--brand);
+  --neutral-accent-contrast: #111827;
+}
+
 /* Base reset + typography */
 *, *::before, *::after {
   box-sizing: border-box;

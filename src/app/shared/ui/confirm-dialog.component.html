@@ -1,0 +1,22 @@
+<h2 mat-dialog-title class="title-row">
+  <span class="icon-badge" [ngClass]="data.variant || 'danger'">
+    <mat-icon>{{ data.icon || defaultIcon }}</mat-icon>
+  </span>
+  <span class="title-text">{{ data.title || 'Confirmación' }}</span>
+</h2>
+<div mat-dialog-content class="content">
+  <p>{{ data.message || '¿Confirmas esta acción?' }}</p>
+</div>
+<div mat-dialog-actions align="end" class="actions">
+  <!-- Angular v16+ built-in control flow -->
+  @switch (data.variant) {
+    @case ('danger') {
+      <button class="btn-ghost" type="button" (click)="cancel()">{{ data.cancelText || 'Cancelar' }}</button>
+      <button class="btn-secondary" type="button" (click)="confirm()">{{ data.confirmText || 'Eliminar' }}</button>
+    }
+    @default {
+      <button class="btn-primary" type="button" (click)="cancel()">{{ data.cancelText || 'Cancelar' }}</button>
+      <button class="btn-ghost" type="button" (click)="confirm()">{{ data.confirmText || 'Cerrar' }}</button>
+    }
+  }
+</div>
