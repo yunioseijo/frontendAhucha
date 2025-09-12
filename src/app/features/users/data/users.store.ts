@@ -3,6 +3,7 @@ import { UsersService } from '@shared/api/users.service';
 import { User } from '@shared/models/user.domain';
 import { mapUserDtoToDomain } from '@shared/api/mappers/user.mapper';
 import { CreateUserDto } from '@shared/api/types.gen';
+import type { UserRole } from '@shared/models/roles';
 
 @Injectable({ providedIn: 'root' })
 export class UsersStore {
@@ -19,7 +20,7 @@ export class UsersStore {
   load(
     limit = 10,
     offset = 0,
-    filters?: { q?: string; role?: 'admin' | 'super-user' | 'user'; isActive?: boolean; emailVerified?: boolean }
+    filters?: { q?: string; role?: UserRole; isActive?: boolean; emailVerified?: boolean }
   ) {
     this.loadingSig.set(true);
     this.api.list(limit, offset, filters).subscribe({
@@ -36,7 +37,7 @@ export class UsersStore {
     payload: CreateUserDto,
     limit = 10,
     offset = 0,
-    filters?: { q?: string; role?: 'admin' | 'super-user' | 'user'; isActive?: boolean; emailVerified?: boolean }
+    filters?: { q?: string; role?: UserRole; isActive?: boolean; emailVerified?: boolean }
   ) {
     this.loadingSig.set(true);
     this.api.create(payload).subscribe({

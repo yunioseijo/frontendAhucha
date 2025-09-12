@@ -1,5 +1,6 @@
 import { UserResponseDto } from '@shared/api/types.gen';
 import { User } from '@shared/models/user.domain';
+import type { UserRole } from '@shared/models/roles';
 
 export function mapUserDtoToDomain(dto: UserResponseDto): User {
   return {
@@ -8,7 +9,7 @@ export function mapUserDtoToDomain(dto: UserResponseDto): User {
     username: dto.username ?? undefined,
     fullName: dto.fullName,
     isActive: dto.isActive,
-    roles: dto.roles as any,
+    roles: dto.roles as UserRole[],
     avatarUrl: dto.avatarUrl ?? undefined,
     phone: dto.phone ?? undefined,
     bio: dto.bio ?? undefined,
@@ -21,4 +22,3 @@ export function mapUserDtoToDomain(dto: UserResponseDto): User {
     deletedAt: dto.deletedAt ?? undefined,
   };
 }
-

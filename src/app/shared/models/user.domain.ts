@@ -1,10 +1,12 @@
+import type { UserRole } from './roles';
+
 export interface User {
   id: string;
   email: string;
   username?: string;
   fullName: string;
   isActive: boolean;
-  roles: ('admin' | 'super-user' | 'user')[];
+  roles: UserRole[];
   avatarUrl?: string;
   phone?: string;
   bio?: string;
@@ -16,4 +18,3 @@ export interface User {
   updatedAt: string;
   deletedAt?: string;
 }
-

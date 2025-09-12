@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UsersService } from '@shared/api/users.service';
+import type { UserRole } from '@shared/models/roles';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ConfirmModalComponent } from '@shared/ui/confirm-modal.component';
@@ -23,10 +24,10 @@ export class UsersTrashPage implements OnInit {
   list: any[] = [];
   readonly math = Math;
   q = '';
-  role: '' | 'admin' | 'super-user' | 'user' = '';
+  role: '' | UserRole = '';
   // reactive streams
   private q$ = new BehaviorSubject<string>('');
-  private role$ = new BehaviorSubject<'' | 'admin' | 'super-user' | 'user'>('');
+  private role$ = new BehaviorSubject<'' | UserRole>('');
   private limit$ = new BehaviorSubject<number>(this.limit);
   private offset$ = new BehaviorSubject<number>(this.offset);
 
@@ -35,7 +36,7 @@ export class UsersTrashPage implements OnInit {
       this.api
         .listDeleted(limit, offset, {
           q: q?.trim() || undefined,
-          role: (role || undefined) as any,
+          role: (role || undefined) as UserRole | undefined,
         })
         .pipe(
           map((res) => ({
@@ -96,7 +97,7 @@ export class UsersTrashPage implements OnInit {
     this.q$.next(val);
     this.onFilters();
   }
-  set roleModel(val: '' | 'admin' | 'super-user' | 'user') {
+  set roleModel(val: '' | UserRole) {
     this.role = val;
     this.role$.next(val);
     this.onFilters();

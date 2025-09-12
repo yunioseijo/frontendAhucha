@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { UsersStore } from './data/users.store';
+import type { UserRole } from '@shared/models/roles';
 
 import { UsersService } from '@shared/api/users.service';
 import { ConfirmModalComponent } from '@shared/ui/confirm-modal.component';
@@ -38,7 +39,7 @@ export class UsersPage implements OnInit {
   total = 0;
   // filter inputs (bound via ngModel)
   search = '';
-  role = '';
+  role: '' | UserRole = '';
   status: '' | 'active' | 'inactive' = '';
   // server-side list passthrough
   list = computed(() => this.store.list());
@@ -61,11 +62,7 @@ export class UsersPage implements OnInit {
   private buildFilters() {
     return {
       q: this.search?.trim() || undefined,
-      role: (this.role || undefined) as
-        | 'admin'
-        | 'super-user'
-        | 'user'
-        | undefined,
+      role: (this.role || undefined) as import('@shared/models/roles').UserRole | undefined,
       isActive: this.status === '' ? undefined : this.status === 'active',
       // emailVerified not exposed in UI for now
     };
