@@ -31,7 +31,10 @@ export class UsersService {
     let params = new HttpParams().set('limit', limit).set('offset', offset);
     if (filters) {
       if (filters.q && filters.q.trim().length > 0) params = params.set('q', filters.q.trim());
-      if (filters.role) params = params.set('role', filters.role);
+      if (filters.role) {
+        const allowed = new Set(['admin', 'super-user', 'user']);
+        if (allowed.has(filters.role)) params = params.set('role', filters.role);
+      }
       if (typeof filters.isActive === 'boolean') params = params.set('isActive', String(filters.isActive));
       if (typeof filters.emailVerified === 'boolean') params = params.set('emailVerified', String(filters.emailVerified));
     }
@@ -46,7 +49,10 @@ export class UsersService {
     let params = new HttpParams().set('limit', limit).set('offset', offset).set('onlyDeleted', 'true');
     if (filters) {
       if (filters.q && filters.q.trim().length > 0) params = params.set('q', filters.q.trim());
-      if (filters.role) params = params.set('role', filters.role);
+      if (filters.role) {
+        const allowed = new Set(['admin', 'super-user', 'user']);
+        if (allowed.has(filters.role)) params = params.set('role', filters.role);
+      }
     }
     return this.http.get<UserListResponseDto>(`${API.baseUrl}/users`, { params });
   }
